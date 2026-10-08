@@ -20,14 +20,12 @@
         .slider::-webkit-slider-thumb { -webkit-appearance:none; width:14px; height:14px; border-radius:50%; background:#fff; }
         input[type="file"] { display:none; }
         .btn-group { display:flex; flex-direction:column; width:100%; gap:10px; }
-        .btn { background:#FFF; padding:12px 20px; border-radius:30px; border:none; color:#050505; font-weight:700; font-size:14px; cursor:pointer; width:100%; text-align:center; -webkit-tap-highlight-color:transparent; box-sizing:border-box; }
+        .btn { background:#FFF; padding:12px 20px; border-radius:30px; border:none; color:#050505; font-weight:700; font-size:14px; cursor:pointer; width:100%; text-align:center; -webkit-tap-highlight-color:transparent; box-sizing:border-box; text-decoration:none; display:block; }
         .btn:active { background:#E5E5E5; }
         .btn.secondary { background:#1d4ed8; color:#fff; box-shadow:0 4px 12px rgba(29,78,216,0.2); }
         .sidebar-section { display:flex; flex-direction:column; gap:20px; width:100%; max-width:340px; }
         .recents-container { background:#0b0b0d; border:1px solid #16161a; border-radius:24px; width:100%; padding:20px; box-shadow:0 15px 35px rgba(0,0,0,0.5); box-sizing:border-box; }
         .recents-title { font-size:11px; text-transform:uppercase; letter-spacing:1px; color:#4364F7; margin:0 0 12px 4px; font-weight:700; }
-        .token-form { display:flex; flex-direction:column; gap:8px; margin-bottom:10px; }
-        .token-form input { background:#121215; border:1px solid #222; border-radius:12px; padding:10px; color:#fff; outline:none; font-size:13px; }
         .song-list { list-style:none; padding:0; margin:0; max-height:160px; overflow-y:auto; }
         .song-item { padding:10px; border-radius:12px; font-size:14px; color:#D4D4D4; cursor:pointer; text-overflow:ellipsis; overflow:hidden; white-space:nowrap; border-bottom:1px solid #141417; }
         .song-item:last-child { border-bottom:none; }
@@ -48,7 +46,7 @@
             </div>
             <div class="btn-group">
                 <label class="btn">Browse & Play Local File<input type="file" id="audioFile" accept="*/*"></label>
-                <label class="btn secondary" id="vaultUploadBtn" style="display:none;">Upload Track to Vault<input type="file" id="vaultFileSelector" accept="*/*"></label>
+                <a href="https://vercel.app" target="_blank" class="btn secondary">Open Vault Upload Deck</a>
             </div>
         </div>
 
@@ -56,13 +54,6 @@
             <div class="recents-container">
                 <div class="recents-title">My GitHub Vault</div>
                 <ul class="song-list" id="vaultList"><li class="empty-text" id="vaultLoadingMessage">Scanning tracks...</li></ul>
-            </div>
-            <div class="recents-container">
-                <div class="recents-title">Vault Settings</div>
-                <div class="token-form">
-                    <input type="password" id="ghTokenField" placeholder="Paste GitHub Token...">
-                    <button class="btn" style="padding:10px; font-size:13px;" onclick="saveGitHubToken()">Link Upload Engine</button>
-                </div>
             </div>
             <div class="recents-container">
                 <div class="recents-title">Recent Songs</div>
@@ -77,9 +68,6 @@
         const audio = document.getElementById('audioPlayer');
         const playBtn = document.getElementById('playBtn');
         const fileInput = document.getElementById('audioFile');
-        const vaultFileSelector = document.getElementById('vaultFileSelector');
-        const vaultUploadBtn = document.getElementById('vaultUploadBtn');
-        const ghTokenField = document.getElementById('ghTokenField');
         const trackName = document.getElementById('track-name');
         const recentList = document.getElementById('recentList');
         const vaultList = document.getElementById('vaultList');
@@ -90,7 +78,6 @@
         const durationTimeDisplay = document.getElementById('durationTime');
         
         let recentSongs = [];
-        let gitHubToken = "";
 
         const user = "playgroupali";
         const repo = "MusicOfflinePlayer";
@@ -112,55 +99,8 @@
                 });
             } catch (error) { vaultLoadingMessage.innerText = "Add tracks/ folder to GitHub"; }
         }
-
-        function saveGitHubToken() {
-            const val = ghTokenField.value.trim();
-            if (val !== "") {
-                localStorage.setItem('my_gh_player_token', val);
-                gitHubToken = val; vaultUploadBtn.style.display = 'block';
-                ghTokenField.value = ""; alert("Upload Engine Linked!");
-                scanGitHubTracksFolder();
-            }
-        }
-        vaultFileSelector.addEventListener('change', async (e) => {
-            const files = e.target.files;
-            if (!files || files.length === 0 || !gitHubToken) return;
-            
-            const file = files[0];
-            const cleanFileName = file.name.replace(/[^a-zA-Z0-9.\-_]/g, "_");
-            const uploadUrl = `${apiUrl}/${cleanFileName}`;
-            trackName.innerText = "Uploading track to cloud...";
-            
-            const reader = new FileReader();
-            reader.onload = async () => {
-                const rawResult = reader.result;
-                const base64Content = rawResult.substr(rawResult.indexOf(',') + 1);
-                
-                try {
-                    const res = await fetch(uploadUrl, {
-                        method: 'PUT',
-                        headers: { 
-                            'Authorization': `token ${gitHubToken}`, 
-                            'Content-Type': 'application/json' 
-                        },
-                        body: JSON.stringify({ 
-                            message: `Upload ${cleanFileName} via app web dashboard interface`, 
-                            content: base64Content 
-                        })
-                    });
-                    if (res.ok) {
-                        trackName.innerText = "Upload finished! Syncing...";
-                        setTimeout(() => { scanGitHubTracksFolder(); trackName.innerText = "Track live in vault!"; }, 3000);
-                    } else { alert("Upload failed. Verify your token permissions."); trackName.innerText = "No track loaded"; }
-                } catch (err) { alert("Network connectivity error."); }
-            };
-            reader.readAsDataURL(file);
-        });
-
         window.addEventListener('DOMContentLoaded', () => {
             scanGitHubTracksFolder();
-            const savedToken = localStorage.getItem('my_gh_player_token');
-            if (savedToken) { gitHubToken = savedToken; vaultUploadBtn.style.display = 'block'; }
             const savedSongs = localStorage.getItem('my_vault_tracks');
             if (savedSongs) { try { recentSongs = JSON.parse(savedSongs); renderRecentList(); } catch (e) {} }
         });
@@ -168,7 +108,7 @@
         fileInput.addEventListener('change', (e) => {
             const files = e.target.files;
             if (files && files.length > 0) {
-                const file = files[0]; trackName.innerText = file.name;
+                const file = files; trackName.innerText = file.name;
                 audio.src = URL.createObjectURL(file); audio.play();
                 playBtn.innerText = "⏸️"; addSongToRecents(file.name, "LOCAL", "");
             }
