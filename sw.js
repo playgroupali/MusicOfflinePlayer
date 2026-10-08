@@ -1,4 +1,4 @@
-const CACHE_NAME = 'music-cache-v20';
+const CACHE_NAME = 'music-cache-v25';
 const ASSETS = [
   'index.html',
   'manifest.json'
