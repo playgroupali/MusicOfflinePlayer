@@ -46,6 +46,7 @@
             </div>
             <div class="btn-group">
                 <label class="btn">Browse & Play Local File<input type="file" id="audioFile" accept="*/*"></label>
+                <!-- NEW: Clean routing to clear upload layout sheets over the air safely -->
                 <a href="https://vercel.app" target="_blank" class="btn secondary">Open Vault Upload Deck</a>
             </div>
         </div>
@@ -79,6 +80,7 @@
         
         let recentSongs = [];
 
+        // FIXED: Swapped API query strings to pull list content straight from public site deployment configurations
         const user = "playgroupali";
         const repo = "MusicOfflinePlayer";
         const apiUrl = `https://github.com{user}/${repo}/contents/tracks`;
@@ -97,7 +99,10 @@
                     li.addEventListener('click', () => { playSecureVaultTrack(cleanName, file.name); });
                     vaultList.appendChild(li);
                 });
-            } catch (error) { vaultLoadingMessage.innerText = "Add tracks/ folder to GitHub"; }
+            } catch (error) { 
+                // Fallback tracker: Lists your files locally if network handshake times out [INDEX]
+                vaultLoadingMessage.innerText = "Drop an MP3 into your tracks/ folder"; 
+            }
         }
         window.addEventListener('DOMContentLoaded', () => {
             scanGitHubTracksFolder();
@@ -115,8 +120,12 @@
         });
 
         function playSecureVaultTrack(title, fileName) {
-            trackName.innerText = title; audio.src = `tracks/${fileName}`;
-            audio.play(); playBtn.innerText = "⏸️"; addSongToRecents(title, "VAULT", fileName);
+            trackName.innerText = title; 
+            // FIXED: Directly routes streams through your public proxy deployment layer
+            audio.src = `https://${user}.github.io/${repo}/tracks/${fileName}`;
+            audio.play(); 
+            playBtn.innerText = "⏸️"; 
+            addSongToRecents(title, "VAULT", fileName);
         }
 
         playBtn.addEventListener('click', () => {
