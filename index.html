@@ -48,11 +48,8 @@
         <div class="sidebar-section">
             <div class="recents-container">
                 <div class="recents-title">My GitHub Vault</div>
-                <ul class="song-list">
-                    <!-- ⚠️ RENAME THESE TO MATCH YOUR MP3 FILENAMES INSIDE YOUR TRACKS FOLDER -->
-                    <li class="song-item" onclick="playSecureVaultTrack('Song Title 1', 'song1.mp3')">🎵 Song Title 1</li>
-                    <li class="song-item" onclick="playSecureVaultTrack('Song Title 2', 'song2.mp3')">🎵 Song Title 2</li>
-                    <li class="song-item" onclick="playSecureVaultTrack('Song Title 3', 'song3.mp3')">🎵 Song Title 3</li>
+                <ul class="song-list" id="vaultList">
+                    <li class="empty-text" id="vaultLoadingMessage">Scanning tracks folder...</li>
                 </ul>
             </div>
 
@@ -73,13 +70,58 @@
         const fileInput = document.getElementById('audioFile');
         const trackName = document.getElementById('track-name');
         const recentList = document.getElementById('recentList');
+        const vaultList = document.getElementById('vaultList');
         const emptyMessage = document.getElementById('emptyMessage');
+        const vaultLoadingMessage = document.getElementById('vaultLoadingMessage');
         const seekSlider = document.getElementById('seekSlider');
         const currentTimeDisplay = document.getElementById('currentTime');
         const durationTimeDisplay = document.getElementById('durationTime');
+        
         let recentSongs = [];
 
+        // 🛠️ AUTO-DETECTION CONFIGURATION
+        // It reads your current URL layout to find your exact repository files
+        const username = window.location.hostname.split('.')[0];
+        const repoName = window.location.pathname.split('/')[1];
+        const apiUrl = `https://github.com{username}/${repoName}/contents/tracks`;
+
+        async function scanGitHubTracksFolder() {
+            try {
+                const response = await fetch(apiUrl);
+                if (!response.ok) throw new Error("Folder empty or not found");
+                const files = await response.json();
+                
+                // Filter out everything except valid music formats
+                const audioFiles = files.filter(file => 
+                    file.name.endsWith('.mp3') || 
+                    file.name.endsWith('.m4a') || 
+                    file.name.endsWith('.wav')
+                );
+
+                if (audioFiles.length === 0) {
+                    vaultLoadingMessage.innerText = "No music files inside 'tracks/'";
+                    return;
+                }
+
+                vaultList.innerHTML = ""; // Clear loader text
+                audioFiles.forEach(file => {
+                    const cleanName = file.name.replace(/\.[^/.]+$/, ""); // Strip extension for clean title display
+                    const li = document.createElement('li');
+                    li.className = 'song-item';
+                    li.innerText = `🎵 ${cleanName}`;
+                    li.addEventListener('click', () => {
+                        playSecureVaultTrack(cleanName, file.name);
+                    });
+                    vaultList.appendChild(li);
+                });
+            } catch (error) {
+                vaultLoadingMessage.innerText = "Add MP3s to your tracks/ folder";
+                console.error("Scanning Error:", error);
+            }
+        }
+
         window.addEventListener('DOMContentLoaded', () => {
+            scanGitHubTracksFolder();
             const savedSongs = localStorage.getItem('my_vault_tracks');
             if (savedSongs) {
                 try { recentSongs = JSON.parse(savedSongs); renderRecentList(); } catch (e) {}
@@ -131,23 +173,19 @@
             recentSongs = recentSongs.filter(song => song.name !== name);
             recentSongs.unshift({ name: name, type: type, file: filename });
             if (recentSongs.length > 6) recentSongs.pop();
-            localStorage.setItem('my_vault_tracks', JSON.stringify(recentSongs));
-            renderRecentList();
-        }
-
-        function renderRecentList() {
-            if (recentSongs.length > 0 && emptyMessage) emptyMessage.style.display = 'none';
-            recentList.innerHTML = "";
-            recentSongs.forEach(song => {
-                const li = document.createElement('li'); li.className = 'song-item'; li.innerText = song.name;
-                li.addEventListener('click', () => {
-                    if (song.type === "VAULT") { playSecureVaultTrack(song.name, song.file); } 
-                    else { trackName.innerText = song.name; alert("Tap 'Browse Files' to reload manual track:\n" + song.name); }
-                });
-                recentList.appendChild(li);
-            });
-        }
-        if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js'); }
-    </script>
-</body>
-</html>
+localStorage.setItem('my_vault_tracks', JSON.stringify(recentSongs));
+renderRecentList();
+}
+function renderRecentList() {
+if (recentSongs.length > 0 && emptyMessage) emptyMessage.style.display = 'none';
+recentList.innerHTML = "";
+recentSongs.forEach(song => {
+const li = document.createElement('li'); li.className = 'song-item'; li.innerText = song.name;
+li.addEventListener('click', () => {
+if (song.type === "VAULT") { playSecureVaultTrack(song.name, song.file); }
+else { trackName.innerText = song.name; alert("Tap 'Browse Files' to reload manual track:\n" + song.name); }
+});
+recentList.appendChild(li);
+});
+}
+if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js'); }
