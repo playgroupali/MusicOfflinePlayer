@@ -7,7 +7,7 @@
   "theme_color": "#050505",
   "icons": [
     {
-      "src": "https://postimg.cc",
+      "src": "icon.png",
       "sizes": "512x512",
       "type": "image/png"
     }
