@@ -6,46 +6,60 @@
     <title>offline music play</title>
     <link rel="manifest" href="manifest.json">
     <style>
-        /* Modern Dark Theme Base */
         body { 
             background-color: #050505; 
             color: #FFFFFF; 
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
-            text-align: center; 
-            padding: 60px 20px; 
+            font-family: system-ui, -apple-system, sans-serif; 
             margin: 0; 
             min-height: 100vh;
             box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
         }
-        
-        /* Clean White Headings */
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            max-width: 800px;
+            gap: 40px;
+            align-items: center;
+        }
+        .player-main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 340px;
+        }
         h2 { 
             font-weight: 700; 
             font-size: 26px;
             letter-spacing: -0.5px; 
-            margin-bottom: 8px; 
+            margin: 0 0 8px 0; 
             color: #FFFFFF;
+            text-align: center;
         }
-        
-        /* Muted White/Gray Status Text */
         #track-name { 
             color: #A3A3A3; 
             font-size: 15px; 
-            margin-bottom: 40px; 
-            padding: 0 20px; 
+            margin: 0 0 35px 0; 
+            padding: 0 10px; 
             text-overflow: ellipsis; 
             overflow: hidden; 
             white-space: nowrap; 
+            width: 100%;
+            box-sizing: border-box;
+            text-align: center;
         }
-        
-        /* Electric Blue Gradient Controller Button */
         .touch-pad { 
-            width: 220px; 
-            height: 220px; 
+            width: 200px; 
+            height: 200px; 
             border-radius: 50%; 
             background: linear-gradient(135deg, #0052D4 0%, #4364F7 50%, #6FB1FC 100%); 
-            box-shadow: 0 15px 35px rgba(67, 100, 247, 0.4), inset 0 -4px 10px rgba(0,0,0,0.3); 
-            margin: 0 auto 40px auto; 
+            box-shadow: 0 15px 35px rgba(67, 100, 247, 0.4); 
+            margin: 0 auto 30px auto; 
             display: flex; 
             align-items: center; 
             justify-content: center; 
@@ -54,17 +68,40 @@
             -webkit-tap-highlight-color: transparent; 
             transition: transform 0.1s ease; 
         }
-        
-        /* Tactile Press Effect */
-        .touch-pad:active { 
-            transform: scale(0.95); 
+        .touch-pad:active { transform: scale(0.95); }
+        .seeker-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 35px;
         }
-        
-        input[type="file"] { 
-            display: none; 
+        .time-box {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #A3A3A3;
+            padding: 0 5px;
         }
-        
-        /* Clean High-Contrast White Action Button */
+        .slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: #222;
+            outline: none;
+            cursor: pointer;
+        }
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #6FB1FC;
+            box-shadow: 0 0 10px rgba(67, 100, 247, 0.8);
+        }
+        input[type="file"] { display: none; }
         .btn { 
             background-color: #FFFFFF; 
             padding: 16px 40px; 
@@ -75,25 +112,22 @@
             font-size: 16px; 
             cursor: pointer; 
             display: inline-block; 
-            box-shadow: 0 4px 15px rgba(255,255,255,0.1); 
-            -webkit-tap-highlight-color: transparent;
-            margin-bottom: 40px;
+            width: 100%;
+            max-width: 240px;
+            box-sizing: border-box;
+            text-align: center;
         }
-        
-        .btn:active { 
-            background-color: #E5E5E5; 
-        }
-
-        /* Recent Songs Container Layout */
+        .btn:active { background-color: #E5E5E5; }
         .recents-container {
             background-color: #121214;
             border: 1px solid #222;
             border-radius: 20px;
+            width: 100%;
             max-width: 320px;
-            margin: 0 auto;
             padding: 20px;
             text-align: left;
             box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+            box-sizing: border-box;
         }
         .recents-title {
             font-size: 13px;
@@ -107,7 +141,7 @@
             list-style: none;
             padding: 0;
             margin: 0;
-            max-height: 180px;
+            max-height: 220px;
             overflow-y: auto;
         }
         .song-item {
@@ -119,44 +153,48 @@
             text-overflow: ellipsis;
             overflow: hidden;
             white-space: nowrap;
-            transition: background 0.2s;
             border-bottom: 1px solid #1a1a1f;
         }
-        .song-item:last-child {
-            border-bottom: none;
-        }
-        .song-item:active {
-            background-color: #1e1e24;
-            color: #6FB1FC;
-        }
-        .empty-text {
-            color: #555;
-            font-size: 13px;
-            margin: 5px;
-            text-align: center;
+        .song-item:last-child { border-bottom: none; }
+        .song-item:active { background-color: #1e1e24; color: #6FB1FC; }
+        .empty-text { color: #555; font-size: 13px; margin: 5px; text-align: center; }
+
+        @media (min-width: 650px) {
+            .app-container {
+                flex-direction: row-reverse;
+                justify-content: center;
+                align-items: flex-start;
+                gap: 50px;
+            }
+            .player-main { max-width: 360px; }
+            .recents-container { max-width: 300px; margin-top: 15px; }
         }
     </style>
 </head>
 <body>
-
-    <h2>offline music play</h2>
-    <p id="track-name">No track loaded</p>
-
-    <!-- Glowing Electric Blue Main Button -->
-    <div class="touch-pad" id="playBtn">▶️</div>
-
-    <!-- Completely Unlocked Selection Button (*/* opens all file formats) -->
-    <label class="btn">
-        Choose Audio File
-        <input type="file" id="audioFile" accept="*/*">
-    </label>
-
-    <!-- Recent Tracks Module Component -->
-    <div class="recents-container">
-        <div class="recents-title">Recent Songs</div>
-        <ul class="song-list" id="recentList">
-            <li class="empty-text" id="emptyMessage">No recently played songs</li>
-        </ul>
+    <div class="app-container">
+        <div class="player-main">
+            <h2>offline music play</h2>
+            <p id="track-name">No track loaded</p>
+            <div class="touch-pad" id="playBtn">▶️</div>
+            <div class="seeker-container">
+                <input type="range" id="seekSlider" class="slider" min="0" max="100" value="0">
+                <div class="time-box">
+                    <span id="currentTime">0:00</span>
+                    <span id="durationTime">0:00</span>
+                </div>
+            </div>
+            <label class="btn">
+                Choose Audio File
+                <input type="file" id="audioFile" accept="*/*">
+            </label>
+        </div>
+        <div class="recents-container">
+            <div class="recents-title">Recent Songs</div>
+            <ul class="song-list" id="recentList">
+                <li class="empty-text" id="emptyMessage">No recently played songs</li>
+            </ul>
+        </div>
     </div>
 
     <audio id="audioPlayer"></audio>
@@ -168,19 +206,19 @@
         const trackName = document.getElementById('track-name');
         const recentList = document.getElementById('recentList');
         const emptyMessage = document.getElementById('emptyMessage');
+        const seekSlider = document.getElementById('seekSlider');
+        const currentTimeDisplay = document.getElementById('currentTime');
+        const durationTimeDisplay = document.getElementById('durationTime');
 
         let recentSongs = [];
 
-        // Load saved song list from phone's hard memory as soon as app launches
         window.addEventListener('DOMContentLoaded', () => {
             const savedSongs = localStorage.getItem('my_offline_tracks');
             if (savedSongs) {
                 try {
                     recentSongs = JSON.parse(savedSongs);
                     renderRecentList();
-                } catch (e) {
-                    console.log("Error loading saved songs");
-                }
+                } catch (e) {}
             }
         });
 
@@ -188,16 +226,11 @@
             const files = e.target.files;
             if (files && files.length > 0) {
                 const file = files[0];
-                
                 const displayName = file.name ? file.name : "Local Track File";
                 trackName.innerText = displayName;
-                
-                // Create audio system pointer stream
                 audio.src = URL.createObjectURL(file);
                 audio.play();
                 playBtn.innerText = "⏸️";
-
-                // Save song name permanently into phone's history
                 addSongToRecents(displayName);
             }
         });
@@ -213,34 +246,45 @@
             }
         });
 
+        audio.addEventListener('timeupdate', () => {
+            if (!isNaN(audio.duration)) {
+                const progress = (audio.currentTime / audio.duration) * 100;
+                seekSlider.value = progress;
+                currentTimeDisplay.innerText = formatTime(audio.currentTime);
+            }
+        });
+
+        audio.addEventListener('loadedmetadata', () => {
+            durationTimeDisplay.innerText = formatTime(audio.duration);
+        });
+
+        seekSlider.addEventListener('input', () => {
+            if (audio.src && !isNaN(audio.duration)) {
+                audio.currentTime = (seekSlider.value / 100) * audio.duration;
+            }
+        });
+
+        function formatTime(secs) {
+            const minutes = Math.floor(secs / 60);
+            const seconds = Math.floor(secs % 60);
+            return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+        }
+
         function addSongToRecents(name) {
-            // Filter duplicates out to keep history neat
             recentSongs = recentSongs.filter(songName => songName !== name);
-            
-            // Push newest track straight to the top entry slot
             recentSongs.unshift(name);
-
-            // Keep list caps under 7 items max limits
             if (recentSongs.length > 7) recentSongs.pop();
-
-            // Save the list into the phone storage engine
             localStorage.setItem('my_offline_tracks', JSON.stringify(recentSongs));
-
             renderRecentList();
         }
 
         function renderRecentList() {
-            if (recentSongs.length > 0 && emptyMessage) {
-                emptyMessage.style.display = 'none';
-            }
-            
+            if (recentSongs.length > 0 && emptyMessage) emptyMessage.style.display = 'none';
             recentList.innerHTML = "";
             recentSongs.forEach(songName => {
                 const li = document.createElement('li');
                 li.className = 'song-item';
                 li.innerText = songName;
-                
-                // Reminder hint warning due to Apple browser file container security blocks
                 li.addEventListener('click', () => {
                     trackName.innerText = songName;
                     alert("Tap 'Choose Audio File' to select and play: \n" + songName);
