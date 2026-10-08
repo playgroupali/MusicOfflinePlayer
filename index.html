@@ -11,9 +11,9 @@
             color: #FFFFFF; 
             font-family: system-ui, -apple-system, sans-serif; 
             text-align: center; 
-            padding-top: 70px; 
+            padding: 50px 20px; 
             margin: 0; 
-            height: 100vh;
+            min-height: 100vh;
             box-sizing: border-box;
         }
         h2 { 
@@ -25,23 +25,23 @@
         #track-name { 
             color: #A3A3A3; 
             font-size: 15px; 
-            margin-bottom: 50px; 
-            padding: 0 30px; 
+            margin-bottom: 40px; 
+            padding: 0 10px; 
             text-overflow: ellipsis; 
             overflow: hidden; 
             white-space: nowrap; 
         }
         .touch-pad { 
-            width: 230px; 
-            height: 230px; 
+            width: 200px; 
+            height: 200px; 
             border-radius: 50%; 
             background: linear-gradient(135deg, #0052D4 0%, #4364F7 50%, #6FB1FC 100%); 
-            box-shadow: 0 20px 40px rgba(67, 100, 247, 0.4); 
-            margin: 0 auto 60px auto; 
+            box-shadow: 0 15px 35px rgba(67, 100, 247, 0.4); 
+            margin: 0 auto 40px auto; 
             display: flex; 
             align-items: center; 
             justify-content: center; 
-            font-size: 60px; 
+            font-size: 50px; 
             cursor: pointer; 
             -webkit-tap-highlight-color: transparent; 
             transition: transform 0.1s ease; 
@@ -54,19 +54,66 @@
         }
         .btn { 
             background-color: #FFFFFF; 
-            padding: 16px 40px; 
+            padding: 14px 36px; 
             border-radius: 30px; 
             border: none; 
             color: #050505; 
             font-weight: 700; 
-            font-size: 16px; 
+            font-size: 15px; 
             cursor: pointer; 
             display: inline-block; 
             box-shadow: 0 4px 15px rgba(255,255,255,0.1); 
             -webkit-tap-highlight-color: transparent;
+            margin-bottom: 40px;
         }
         .btn:active { 
             background-color: #E5E5E5; 
+        }
+        
+        /* New Recent Songs Container Layout */
+        .recents-container {
+            background-color: #121214;
+            border: 1px solid #222;
+            border-radius: 20px;
+            max-width: 320px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: left;
+        }
+        .recents-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #4364F7;
+            margin: 0 0 12px 5px;
+            font-weight: 700;
+        }
+        .song-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+        .song-item {
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 14px;
+            color: #E5E5E5;
+            cursor: pointer;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            transition: background 0.2s;
+        }
+        .song-item:hover, .song-item:active {
+            background-color: #1e1e24;
+            color: #6FB1FC;
+        }
+        .empty-text {
+            color: #555;
+            font-size: 13px;
+            margin: 5px;
         }
     </style>
 </head>
@@ -77,10 +124,19 @@
 
     <div class="touch-pad" id="playBtn">▶️</div>
 
+    <!-- Accepting standard audio as well as common container tracks -->
     <label class="btn">
         Choose Audio File
-        <input type="file" id="audioFile" accept="audio/*">
+        <input type="file" id="audioFile" accept="audio/*,video/mp4,video/x-m4a">
     </label>
+
+    <!-- Recent Tracks Module Component -->
+    <div class="recents-container">
+        <div class="recents-title">Recent Songs</div>
+        <ul class="song-list" id="recentList">
+            <li class="empty-text" id="emptyMessage">No recently played songs</li>
+        </ul>
+    </div>
 
     <audio id="audioPlayer"></audio>
 
@@ -89,14 +145,28 @@
         const playBtn = document.getElementById('playBtn');
         const fileInput = document.getElementById('audioFile');
         const trackName = document.getElementById('track-name');
+        const recentList = document.getElementById('recentList');
+        const emptyMessage = document.getElementById('emptyMessage');
+
+        // Track array mapping stored pointers
+        let recentSongs = [];
 
         fileInput.addEventListener('change', (e) => {
-            const file = e.target.files;
-            if (file) {
-                trackName.innerText = file.name;
+            const files = e.target.files;
+            if (files && files.length > 0) {
+                const file = files[0];
+                
+                // Fallback catch clean string name checking logic
+                const displayName = file.name ? file.name : "Local Track File";
+                trackName.innerText = displayName;
+                
+                // Mount file object blob reference path 
                 audio.src = URL.createObjectURL(file);
                 audio.play();
                 playBtn.innerText = "⏸️";
+
+                // Add to recent array track list memory stack
+                addSongToRecents(displayName, audio.src);
             }
         });
 
@@ -110,6 +180,38 @@
                 playBtn.innerText = "▶️";
             }
         });
+
+        function addSongToRecents(name, srcUrl) {
+            // Remove notice marker
+            if (emptyMessage) emptyMessage.style.display = 'none';
+
+            // Filter duplicates out of active display rows
+            recentSongs = recentSongs.filter(item => item.name !== name);
+            
+            // Insert newest items directly at front profile order
+            recentSongs.unshift({ name: name, src: srcUrl });
+
+            // Keep list under clean memory limits
+            if (recentSongs.length > 5) recentSongs.pop();
+
+            renderRecentList();
+        }
+
+        function renderRecentList() {
+            recentList.innerHTML = "";
+            recentSongs.forEach(song => {
+                const li = document.createElement('li');
+                li.className = 'song-item';
+                li.innerText = song.name;
+                li.addEventListener('click', () => {
+                    trackName.innerText = song.name;
+                    audio.src = song.src;
+                    audio.play();
+                    playBtn.innerText = "⏸️";
+                });
+                recentList.appendChild(li);
+            });
+        }
 
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('sw.js');
