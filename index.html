@@ -48,7 +48,7 @@
             </div>
             <div class="btn-group">
                 <label class="btn">Browse & Play Local File<input type="file" id="audioFile" accept="*/*"></label>
-                <label class="btn secondary" id="vaultUploadBtn" style="display:none;">Upload Track to Vault<input type="file" id="vaultFileSelector" accept="audio/*"></label>
+                <label class="btn secondary" id="vaultUploadBtn" style="display:none;">Upload Track to Vault<input type="file" id="vaultFileSelector" accept="*/*"></label>
             </div>
         </div>
 
@@ -93,8 +93,8 @@
         let gitHubToken = "";
 
         const paths = window.location.pathname.split('/').filter(Boolean);
-        const user = window.location.hostname.split('.')[0];
-        const repo = paths[0] || "";
+        const user = window.location.hostname.split('.')[0] || "playgroupali";
+        const repo = paths[0] || "MusicOfflinePlayer";
         const apiUrl = `https://github.com{user}/${repo}/contents/tracks`;
 
         async function scanGitHubTracksFolder() {
@@ -121,6 +121,7 @@
                 localStorage.setItem('my_gh_player_token', val);
                 gitHubToken = val; vaultUploadBtn.style.display = 'block';
                 ghTokenField.value = ""; alert("Upload Engine Linked!");
+                scanGitHubTracksFolder();
             }
         }
         vaultFileSelector.addEventListener('change', async (e) => {
@@ -142,9 +143,9 @@
                     });
                     if (res.ok) {
                         trackName.innerText = "Upload finished! Syncing...";
-                        setTimeout(() => { scanGitHubTracksFolder(); trackName.innerText = "Track live in vault!"; }, 2500);
-                    } else { alert("Upload failed. Check token parameters."); trackName.innerText = "No track loaded"; }
-                } catch (err) { alert("Network timeout."); }
+                        setTimeout(() => { scanGitHubTracksFolder(); trackName.innerText = "Track live in vault!"; }, 3000);
+                    } else { alert("Upload failed. Verify repo permissions on token."); trackName.innerText = "No track loaded"; }
+                } catch (err) { alert("Network connectivity error."); }
             };
             reader.readAsDataURL(file);
         });
