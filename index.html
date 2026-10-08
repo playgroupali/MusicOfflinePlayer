@@ -2,173 +2,258 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Offline Music Player</title>
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icon.png">
     <style>
-        body { background:#050505; color:#FFF; font-family:system-ui, sans-serif; margin:0; min-height:100vh; display:flex; justify-content:center; align-items:center; padding:20px; box-sizing:border-box; }
-        .app-container { display:flex; flex-direction:column; width:100%; max-width:760px; gap:25px; align-items:center; }
-        .player-main { display:flex; flex-direction:column; align-items:center; width:100%; max-width:340px; background:#0b0b0d; border:1px solid #16161a; border-radius:24px; padding:25px; box-sizing:border-box; box-shadow:0 15px 35px rgba(0,0,0,0.5); }
-        h2 { font-weight:700; font-size:22px; margin:0 0 6px 0; }
-        #track-name { color:#A3A3A3; font-size:14px; margin:0 0 25px 0; text-overflow:ellipsis; overflow:hidden; white-space:nowrap; width:100%; text-align:center; }
-        .touch-pad { width:150px; height:150px; border-radius:50%; background:linear-gradient(135deg, #0052D4, #4364F7, #6FB1FC); box-shadow:0 10px 25px rgba(67,100,247,0.35); margin:0 auto 20px auto; display:flex; align-items:center; justify-content:center; font-size:40px; cursor:pointer; -webkit-tap-highlight-color:transparent; }
-        .touch-pad:active { transform:scale(0.95); }
-        .seeker-container { width:100%; display:flex; flex-direction:column; gap:6px; margin-bottom:20px; box-sizing:border-box; }
-        .time-box { display:flex; justify-content:space-between; font-size:11px; color:#737373; }
-        .slider { -webkit-appearance:none; width:100%; height:5px; border-radius:10px; background:#1a1a1f; outline:none; }
-        .slider::-webkit-slider-thumb { -webkit-appearance:none; width:14px; height:14px; border-radius:50%; background:#fff; }
-        input[type="file"] { display:none; }
-        .btn-group { display:flex; flex-direction:column; width:100%; gap:10px; }
-        .btn { background:#FFF; padding:12px 20px; border-radius:30px; border:none; color:#050505; font-weight:700; font-size:14px; cursor:pointer; width:100%; text-align:center; -webkit-tap-highlight-color:transparent; box-sizing:border-box; text-decoration:none; display:block; }
-        .btn:active { background:#E5E5E5; }
-        .btn.secondary { background:#1d4ed8; color:#fff; box-shadow:0 4px 12px rgba(29,78,216,0.2); }
-        .sidebar-section { display:flex; flex-direction:column; gap:20px; width:100%; max-width:340px; }
-        .recents-container { background:#0b0b0d; border:1px solid #16161a; border-radius:24px; width:100%; padding:20px; box-shadow:0 15px 35px rgba(0,0,0,0.5); box-sizing:border-box; }
-        .recents-title { font-size:11px; text-transform:uppercase; letter-spacing:1px; color:#4364F7; margin:0 0 12px 4px; font-weight:700; }
-        .song-list { list-style:none; padding:0; margin:0; max-height:160px; overflow-y:auto; }
-        .song-item { padding:10px; border-radius:12px; font-size:14px; color:#D4D4D4; cursor:pointer; text-overflow:ellipsis; overflow:hidden; white-space:nowrap; border-bottom:1px solid #141417; }
-        .song-item:last-child { border-bottom:none; }
-        .song-item:active { background:#16161f; color:#6FB1FC; }
-        .empty-text { color:#404040; font-size:13px; padding:10px 0; text-align:center; }
-        @media (min-width:680px) { .app-container { flex-direction:row-reverse; gap:30px; } .player-main { max-width:340px; } .sidebar-section { max-width:320px; } }
+        /* CSS Root Variables that automatically swap colors matching iOS Light/Dark states */
+        :root {
+            --bg-body: #050505;
+            --bg-player: #0b0b0d;
+            --border-player: #16161a;
+            --text-main: #FFFFFF;
+            --text-muted: #A3A3A3;
+            --orb-gradient: linear-gradient(135deg, #0052D4 0%, #4364F7 50%, #6FB1FC 100%);
+            --orb-shadow: rgba(67, 100, 247, 0.35);
+            --slider-bg: #1a1a1f;
+            --slider-thumb: #ffffff;
+            --btn-bg: #FFFFFF;
+            --btn-text: #050505;
+        }
+
+        @media (prefers-color-scheme: light) {
+            :root {
+                --bg-body: #F0F7FF; /* Very soft sky-blue-tinted white base */
+                --bg-player: #FFFFFF; /* Crisp solid white card container */
+                --border-player: #E1EFFE; /* Light blue accent border rule lines */
+                --text-main: #1E3A8A; /* Premium deep royal navy blue text */
+                --text-muted: #6B7280;
+                --orb-gradient: linear-gradient(135deg, #60A5FA 0%, #3B82F6 50%, #1D4ED8 100%); /* Radiant sky-to-royal light blue play orb */
+                --orb-shadow: rgba(59, 130, 246, 0.25);
+                --slider-bg: #E5E7EB;
+                --slider-thumb: #3B82F6; /* Sky blue timeline thumb scrubbers */
+                --btn-bg: #1D4ED8; /* Solid royal blue folder action button */
+                --btn-text: #FFFFFF;
+            }
+        }
+
+        body { 
+            background-color: var(--bg-body); 
+            color: var(--text-main); 
+            font-family: system-ui, -apple-system, sans-serif; 
+            margin: 0; 
+            min-height: 100vh;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px 20px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            max-width: 340px;
+            gap: 25px;
+            align-items: center;
+        }
+        
+        .player-main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            background-color: var(--bg-player);
+            border: 1px solid var(--border-player);
+            border-radius: 24px;
+            padding: 30px 24px;
+            box-sizing: border-box;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        h2 { 
+            font-weight: 700; 
+            font-size: 24px;
+            letter-spacing: -0.5px; 
+            margin: 0 0 6px 0; 
+        }
+        #track-name { 
+            color: var(--text-muted); 
+            font-size: 14px; 
+            margin: 0 0 30px 0; 
+            padding: 0 5px; 
+            text-overflow: ellipsis; 
+            overflow: hidden; 
+            white-space: nowrap; 
+            width: 100%;
+            box-sizing: border-box;
+            text-align: center;
+        }
+        
+        .touch-pad { 
+            width: 170px; 
+            height: 170px; 
+            border-radius: 50%; 
+            background: var(--orb-gradient); 
+            box-shadow: 0 12px 30px var(--orb-shadow), inset 0 -4px 8px rgba(0,0,0,0.2); 
+            margin: 0 auto 30px auto; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 46px; 
+            cursor: pointer; 
+            -webkit-tap-highlight-color: transparent; 
+            transition: transform 0.1s ease, background 0.3s ease; 
+        }
+        .touch-pad:active { transform: scale(0.95); }
+
+        .seeker-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 30px;
+            padding: 0 5px;
+            box-sizing: border-box;
+        }
+        .time-box {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            font-variant-numeric: tabular-nums;
+            color: var(--text-muted);
+        }
+        
+        .slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 5px;
+            border-radius: 10px;
+            background: var(--slider-bg);
+            outline: none;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--slider-thumb);
+            box-shadow: 0 0 8px var(--orb-shadow);
+            transition: background 0.3s ease;
+        }
+        
+        input[type="file"] { display: none; }
+        
+        .btn { 
+            background-color: var(--btn-bg); 
+            padding: 14px 20px; 
+            border-radius: 30px; 
+            border: none; 
+            color: var(--btn-text); 
+            font-weight: 700; 
+            font-size: 15px; 
+            cursor: pointer; 
+            display: inline-block; 
+            width: 100%;
+            box-sizing: border-box;
+            text-align: center;
+            -webkit-tap-highlight-color: transparent;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .btn:active { opacity: 0.85; }
     </style>
 </head>
 <body>
+
     <div class="app-container">
         <div class="player-main">
-            <h2>Offline Music Player</h2>
+            <h2>Offline Player</h2>
             <p id="track-name">No track loaded</p>
+            
             <div class="touch-pad" id="playBtn">▶️</div>
+            
             <div class="seeker-container">
                 <input type="range" id="seekSlider" class="slider" min="0" max="100" value="0">
-                <div class="time-box"><span id="currentTime">0:00</span><span id="durationTime">0:00</span></div>
+                <div class="time-box">
+                    <span id="currentTime">0:00</span>
+                    <span id="durationTime">0:00</span>
+                </div>
             </div>
-            <div class="btn-group">
-                <label class="btn">Browse & Play Local File<input type="file" id="audioFile" accept="*/*"></label>
-                <!-- NEW: Clean routing to clear upload layout sheets over the air safely -->
-                <a href="https://vercel.app" target="_blank" class="btn secondary">Open Vault Upload Deck</a>
-            </div>
-        </div>
-
-        <div class="sidebar-section">
-            <div class="recents-container">
-                <div class="recents-title">My GitHub Vault</div>
-                <ul class="song-list" id="vaultList"><li class="empty-text" id="vaultLoadingMessage">Scanning tracks...</li></ul>
-            </div>
-            <div class="recents-container">
-                <div class="recents-title">Recent Songs</div>
-                <ul class="song-list" id="recentList"><li class="empty-text" id="emptyMessage">No recently played songs</li></ul>
-            </div>
+            
+            <label class="btn">
+                Choose Audio File
+                <input type="file" id="audioFile" accept="*/*">
+            </label>
         </div>
     </div>
 
     <audio id="audioPlayer"></audio>
-
     <script>
         const audio = document.getElementById('audioPlayer');
         const playBtn = document.getElementById('playBtn');
         const fileInput = document.getElementById('audioFile');
         const trackName = document.getElementById('track-name');
-        const recentList = document.getElementById('recentList');
-        const vaultList = document.getElementById('vaultList');
-        const emptyMessage = document.getElementById('emptyMessage');
-        const vaultLoadingMessage = document.getElementById('vaultLoadingMessage');
         const seekSlider = document.getElementById('seekSlider');
         const currentTimeDisplay = document.getElementById('currentTime');
         const durationTimeDisplay = document.getElementById('durationTime');
-        
-        let recentSongs = [];
-
-        // FIXED: Swapped API query strings to pull list content straight from public site deployment configurations
-        const user = "playgroupali";
-        const repo = "MusicOfflinePlayer";
-        const apiUrl = `https://github.com{user}/${repo}/contents/tracks`;
-
-        async function scanGitHubTracksFolder() {
-            try {
-                const response = await fetch(apiUrl);
-                if (!response.ok) throw new Error("Empty");
-                const files = await response.json();
-                const audioFiles = files.filter(f => f.name.endsWith('.mp3') || f.name.endsWith('.m4a') || f.name.endsWith('.wav'));
-                if (audioFiles.length === 0) { vaultLoadingMessage.innerText = "No tracks found."; return; }
-                vaultList.innerHTML = "";
-                audioFiles.forEach(file => {
-                    const cleanName = file.name.replace(/\.[^/.]+\$/, "");
-                    const li = document.createElement('li'); li.className = 'song-item'; li.innerText = `🎵 ${cleanName}`;
-                    li.addEventListener('click', () => { playSecureVaultTrack(cleanName, file.name); });
-                    vaultList.appendChild(li);
-                });
-            } catch (error) { 
-                // Fallback tracker: Lists your files locally if network handshake times out [INDEX]
-                vaultLoadingMessage.innerText = "Drop an MP3 into your tracks/ folder"; 
-            }
-        }
-        window.addEventListener('DOMContentLoaded', () => {
-            scanGitHubTracksFolder();
-            const savedSongs = localStorage.getItem('my_vault_tracks');
-            if (savedSongs) { try { recentSongs = JSON.parse(savedSongs); renderRecentList(); } catch (e) {} }
-        });
 
         fileInput.addEventListener('change', (e) => {
             const files = e.target.files;
             if (files && files.length > 0) {
-                const file = files; trackName.innerText = file.name;
-                audio.src = URL.createObjectURL(file); audio.play();
-                playBtn.innerText = "⏸️"; addSongToRecents(file.name, "LOCAL", "");
+                const file = files[0];
+                trackName.innerText = file.name ? file.name : "Local Track File";
+                
+                audio.src = URL.createObjectURL(file);
+                audio.play();
+                playBtn.innerText = "⏸️";
             }
         });
 
-        function playSecureVaultTrack(title, fileName) {
-            trackName.innerText = title; 
-            // FIXED: Directly routes streams through your public proxy deployment layer
-            audio.src = `https://${user}.github.io/${repo}/tracks/${fileName}`;
-            audio.play(); 
-            playBtn.innerText = "⏸️"; 
-            addSongToRecents(title, "VAULT", fileName);
-        }
-
         playBtn.addEventListener('click', () => {
             if (!audio.src) return; 
-            if (audio.paused) { audio.play(); playBtn.innerText = "⏸️"; } 
-            else { audio.pause(); playBtn.innerText = "▶️"; }
+            if (audio.paused) {
+                audio.play();
+                playBtn.innerText = "⏸️";
+            } else {
+                audio.pause();
+                playBtn.innerText = "▶️";
+            }
         });
 
         audio.addEventListener('timeupdate', () => {
             if (!isNaN(audio.duration)) {
-                seekSlider.value = (audio.currentTime / audio.duration) * 100;
+                const progress = (audio.currentTime / audio.duration) * 100;
+                seekSlider.value = progress;
                 currentTimeDisplay.innerText = formatTime(audio.currentTime);
             }
         });
-        audio.addEventListener('loadedmetadata', () => { durationTimeDisplay.innerText = formatTime(audio.duration); });
-        seekSlider.addEventListener('input', () => { if (audio.src && !isNaN(audio.duration)) { audio.currentTime = (seekSlider.value / 100) * audio.duration; } });
+
+        audio.addEventListener('loadedmetadata', () => {
+            durationTimeDisplay.innerText = formatTime(audio.duration);
+        });
+
+        seekSlider.addEventListener('input', () => {
+            if (audio.src && !isNaN(audio.duration)) {
+                audio.currentTime = (seekSlider.value / 100) * audio.duration;
+            }
+        });
 
         function formatTime(secs) {
-            const minutes = Math.floor(secs / 60); const seconds = Math.floor(secs % 60);
+            const minutes = Math.floor(secs / 60);
+            const seconds = Math.floor(secs % 60);
             return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
         }
 
-        function addSongToRecents(name, type, filename) {
-            recentSongs = recentSongs.filter(song => song.name !== name);
-            recentSongs.unshift({ name: name, type: type, file: filename });
-            if (recentSongs.length > 6) recentSongs.pop();
-            localStorage.setItem('my_vault_tracks', JSON.stringify(recentSongs));
-            renderRecentList();
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js');
         }
-
-        function renderRecentList() {
-            if (recentSongs.length > 0 && emptyMessage) emptyMessage.style.display = 'none';
-            recentList.innerHTML = "";
-            recentSongs.forEach(song => {
-                const li = document.createElement('li'); li.className = 'song-item'; li.innerText = song.name;
-                li.addEventListener('click', () => {
-                    if (song.type === "VAULT") { playSecureVaultTrack(song.name, song.file); } 
-                    else { trackName.innerText = song.name; alert("Tap 'Browse Files' to reload manual track:\n" + song.name); }
-                });
-                recentList.appendChild(li);
-            });
-        }
-        if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js'); }
     </script>
 </body>
 </html>
