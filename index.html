@@ -39,7 +39,7 @@
             }
         }
 
-        /* MANUAL PALETTE ENGINE OPTIONS (Light Mode States) */
+        /* MANUAL PALETTE ENGINE CONFIGURATIONS */
         body.theme-red { --bg-body: #FEF2F2; --bg-player: #FFFFFF; --border-player: #FEE2E2; --text-main: #991B1B; --text-muted: #EF4444; --orb-gradient: linear-gradient(135deg, #F87171, #EF4444, #B91C1C); --orb-shadow: rgba(239, 68, 68, 0.25); --slider-bg: #FEE2E2; --slider-thumb: #EF4444; --btn-bg: #EF4444; --btn-text: #FFFFFF; }
         body.theme-orange { --bg-body: #FFF7ED; --bg-player: #FFFFFF; --border-player: #FFEDD5; --text-main: #9A3412; --text-muted: #F97316; --orb-gradient: linear-gradient(135deg, #FB923C, #F97316, #C2410C); --orb-shadow: rgba(249, 115, 22, 0.25); --slider-bg: #FFEDD5; --slider-thumb: #F97316; --btn-bg: #F97316; --btn-text: #FFFFFF; }
         body.theme-yellow { --bg-body: #FEFCE8; --bg-player: #FFFFFF; --border-player: #FEF9C3; --text-main: #854D0E; --text-muted: #EAB308; --orb-gradient: linear-gradient(135deg, #FDE047, #EAB308, #A16207); --orb-shadow: rgba(234, 179, 8, 0.25); --slider-bg: #FEF9C3; --slider-thumb: #EAB308; --btn-bg: #EAB308; --btn-text: #FFFFFF; }
@@ -49,10 +49,14 @@
         body.theme-pink { --bg-body: #FDF2F8; --bg-player: #FFFFFF; --border-player: #FCE7F3; --text-main: #9D174D; --text-muted: #EC4899; --orb-gradient: linear-gradient(135deg, #F472B6, #EC4899, #BE185D); --orb-shadow: rgba(236, 72, 153, 0.25); --slider-bg: #FCE7F3; --slider-thumb: #EC4899; --btn-bg: #EC4899; --btn-text: #FFFFFF; }
         body.theme-white { --bg-body: #F4F4F5; --bg-player: #FFFFFF; --border-player: rgba(0,0,0,0.08); --text-main: #000000; --text-muted: #71717A; --orb-gradient: conic-gradient(from 180deg at 50% 50%, #E2E8F0 0deg, #FFFFFF 180deg, #E2E8F0 360deg); --orb-shadow: rgba(0,0,0,0.04); --slider-bg: #D4D4D8; --slider-thumb: #000000; --btn-bg: #000000; --btn-text: #FFFFFF; }
 
-        /* FIXED SYSTEM TRANSITION: Automatically forces background dark across all manual themes in Dark Mode [INDEX] */
+        /* AUTOMATIC MEDIA QUERY OVERWRITE: Background darkens across all themes in system Dark Mode [INDEX] */
         @media (prefers-color-scheme: dark) {
             body[class*="theme-"] { --bg-body: #050505 !important; }
-            body.theme-white { --slider-thumb: #ffffff !important; }
+            body.theme-white { 
+                --bg-player: #0b0b0d !important; --border-player: #16161a !important; --text-main: #FFFFFF !important; --text-muted: #A3A3A3 !important;
+                --orb-gradient: linear-gradient(135deg, #0052D4 0%, #4364F7 50%, #6FB1FC 100%) !important; --orb-shadow: rgba(67, 100, 247, 0.35) !important;
+                --slider-bg: #1a1a1f !important; --slider-thumb: #ffffff !important; --btn-bg: #FFFFFF !important; --btn-text: #050505 !important;
+            }
         }
 
         body { background-color: var(--bg-body); color: var(--text-main); font-family: system-ui, -apple-system, sans-serif; margin: 0; min-height: 100vh; box-sizing: border-box; display: flex; justify-content: center; align-items: center; padding: 30px 20px; transition: background-color 0.3s ease, color 0.3s ease; }
@@ -79,8 +83,17 @@
         .btn { background-color: var(--btn-bg); padding: 14px 20px; border-radius: 30px; border: none; color: var(--btn-text); font-weight: 700; font-size: 15px; cursor: pointer; display: inline-block; width: 100%; box-sizing: border-box; text-align: center; -webkit-tap-highlight-color: transparent; transition: background-color 0.3s ease, color 0.3s ease; }
         .btn:active { opacity: 0.85; }
 
-        .theme-panel { position: absolute; top: 52px; right: 22px; background: var(--bg-player); border: 1px solid var(--border-player); border-radius: 14px; padding: 8px; display: none; flex-direction: column; gap: 4px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); z-index: 40; max-height: 240px; overflow-y: auto; }
-        .theme-opt { padding: 8px 16px; font-size: 12px; font-weight: 600; border-radius: 8px; cursor: pointer; text-align: left; min-width: 150px; color: var(--text-main); }
+        /* FIXED CLEAN LAYOUT: Compact menu layout parameters preventing scroll boxes [INDEX] */
+        .theme-panel { 
+            position: absolute; top: 52px; right: 22px; background: var(--bg-player); 
+            border: 1px solid var(--border-player); border-radius: 14px; padding: 6px; 
+            display: none; flex-direction: column; gap: 2px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); 
+            z-index: 40; overflow: hidden; /* Removes scrollbars completely [INDEX] */
+        }
+        .theme-opt { 
+            padding: 5px 10px; font-size: 11px; font-weight: 600; border-radius: 8px; 
+            cursor: pointer; text-align: left; min-width: 125px; color: var(--text-main); 
+        }
         .theme-opt:active { background: rgba(0,0,0,0.05); }
     </style>
 </head>
@@ -91,15 +104,16 @@
             <div class="settings-trigger" id="gearBtn" onclick="toggleThemeDropdownPanel()">⚙️</div>
             
             <div class="theme-panel" id="themeDropdownMenu">
-                <div class="theme-opt" style="color:#2563eb;" onclick="swapPlayerThemeProfile('AUTO')">🔄 Auto Device Mode</div>
-                <div class="theme-opt" style="color:#ef4444;" onclick="swapPlayerThemeProfile('RED')">🔴 Red Theme</div>
-                <div class="theme-opt" style="color:#f97316;" onclick="swapPlayerThemeProfile('ORANGE')">🟠 Orange Theme</div>
-                <div class="theme-opt" style="color:#eab308;" onclick="swapPlayerThemeProfile('YELLOW')">🟡 Yellow Theme</div>
-                <div class="theme-opt" style="color:#22c55e;" onclick="swapPlayerThemeProfile('GREEN')">🟢 Green Theme</div>
-                <div class="theme-opt" style="color:#2563eb;" onclick="swapPlayerThemeProfile('BLUE')">🔵 Blue Theme</div>
-                <div class="theme-opt" style="color:#a855f7;" onclick="swapPlayerThemeProfile('PURPLE')">🟣 Purple Theme</div>
-                <div class="theme-opt" style="color:#ec4899;" onclick="swapPlayerThemeProfile('PINK')">🌸 Pink Theme</div>
-                <div class="theme-opt" style="color:#71717a;" onclick="swapPlayerThemeProfile('WHITE')">☀️ White Color Theme</div>
+                <!-- RESTORED CLEAN LAYOUT: Original emoji text nodes [INDEX] -->
+                <div class="theme-opt" onclick="swapPlayerThemeProfile('AUTO')">🔄 Auto Mode</div>
+                <div class="theme-opt" onclick="swapPlayerThemeProfile('RED')">🔴 Red Theme</div>
+                <div class="theme-opt" onclick="swapPlayerThemeProfile('ORANGE')">🟠 Orange Theme</div>
+                <div class="theme-opt" onclick="swapPlayerThemeProfile('YELLOW')">🟡 Yellow Theme</div>
+                <div class="theme-opt" onclick="swapPlayerThemeProfile('GREEN')">🟢 Green Theme</div>
+                <div class="theme-opt" onclick="swapPlayerThemeProfile('BLUE')">🔵 Blue Theme</div>
+                <div class="theme-opt" onclick="swapPlayerThemeProfile('PURPLE')">🟣 Purple Theme</div>
+                <div class="theme-opt" onclick="swapPlayerThemeProfile('PINK')">🩷 Pink Theme</div>
+                <div class="theme-opt" onclick="swapPlayerThemeProfile('WHITE')">⚪️ White Theme</div>
             </div>
 
             <h2>Offline Player</h2>
@@ -130,7 +144,6 @@
         const durationTimeDisplay = document.getElementById('durationTime');
         const themeMenu = document.getElementById('themeDropdownMenu');
 
-        // Handles menu toggle logic loops safely
         function toggleThemeDropdownPanel() {
             themeMenu.style.display = themeMenu.style.display === 'flex' ? 'none' : 'flex';
         }
@@ -150,7 +163,7 @@
         fileInput.addEventListener('change', (e) => {
             const files = e.target.files;
             if (files && files.length > 0) {
-                const file = files[0];
+                const file = files;
                 trackName.innerText = file.name ? file.name : "Local Track File";
                 audio.src = URL.createObjectURL(file);
                 audio.play();
