@@ -1,4 +1,4 @@
-const CACHE_NAME = 'true-offline-music-v100000';
+const CACHE_NAME = 'true-offline-music-v60';
 const ASSETS = [
   './',
   'index.html',
