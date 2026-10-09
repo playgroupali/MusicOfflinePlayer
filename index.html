@@ -7,176 +7,120 @@
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icon.png">
     <style>
-        /* CSS Root Variables that automatically swap colors matching iOS Light/Dark states */
+        /* AUTOMATIC BASELINE CONFIGURATIONS: Default Light Mode */
         :root {
-            --bg-body: #050505;
-            --bg-player: #0b0b0d;
-            --border-player: #16161a;
-            --text-main: #FFFFFF;
-            --text-muted: #A3A3A3;
-            --orb-gradient: linear-gradient(135deg, #0052D4 0%, #4364F7 50%, #6FB1FC 100%);
-            --orb-shadow: rgba(67, 100, 247, 0.35);
-            --slider-bg: #1a1a1f;
-            --slider-thumb: #ffffff;
-            --btn-bg: #FFFFFF;
-            --btn-text: #050505;
+            --bg-body: #F0F7FF; 
+            --bg-player: #FFFFFF; 
+            --border-player: #E1EFFE; 
+            --text-main: #1E3A8A; 
+            --text-muted: #6B7280;
+            --orb-gradient: linear-gradient(135deg, #60A5FA 0%, #3B82F6 50%, #1D4ED8 100%); 
+            --orb-shadow: rgba(59, 130, 246, 0.25);
+            --slider-bg: #E5E7EB;
+            --slider-thumb: #3B82F6; 
+            --btn-bg: #1D4ED8; 
+            --btn-text: #FFFFFF;
         }
 
-        @media (prefers-color-scheme: light) {
+        /* AUTOMATIC BASELINE CONFIGURATIONS: Default Dark Mode */
+        @media (prefers-color-scheme: dark) {
             :root {
-                --bg-body: #F0F7FF; /* Very soft sky-blue-tinted white base */
-                --bg-player: #FFFFFF; /* Crisp solid white card container */
-                --border-player: #E1EFFE; /* Light blue accent border rule lines */
-                --text-main: #1E3A8A; /* Premium deep royal navy blue text */
-                --text-muted: #6B7280;
-                --orb-gradient: linear-gradient(135deg, #60A5FA 0%, #3B82F6 50%, #1D4ED8 100%); /* Radiant sky-to-royal light blue play orb */
-                --orb-shadow: rgba(59, 130, 246, 0.25);
-                --slider-bg: #E5E7EB;
-                --slider-thumb: #3B82F6; /* Sky blue timeline thumb scrubbers */
-                --btn-bg: #1D4ED8; /* Solid royal blue folder action button */
-                --btn-text: #FFFFFF;
+                --bg-body: #050505;
+                --bg-player: #0b0b0d;
+                --border-player: #16161a;
+                --text-main: #FFFFFF;
+                --text-muted: #A3A3A3;
+                --orb-gradient: linear-gradient(135deg, #0052D4 0%, #4364F7 50%, #6FB1FC 100%);
+                --orb-shadow: rgba(67, 100, 247, 0.35);
+                --slider-bg: #1a1a1f;
+                --slider-thumb: #4364F7; 
+                --btn-bg: #FFFFFF;
+                --btn-text: #050505;
             }
         }
 
-        body { 
-            background-color: var(--bg-body); 
-            color: var(--text-main); 
-            font-family: system-ui, -apple-system, sans-serif; 
-            margin: 0; 
-            min-height: 100vh;
-            box-sizing: border-box;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 30px 20px;
-            transition: background-color 0.3s ease, color 0.3s ease;
+        /* MANUAL PALETTE ENGINE CONFIGURATIONS: Base Accent Layout Keys */
+        body.theme-red { --bg-body: #FEF2F2; --bg-player: #FFFFFF; --border-player: #FEE2E2; --text-main: #991B1B; --text-muted: #EF4444; --orb-gradient: linear-gradient(135deg, #F87171, #EF4444, #B91C1C); --orb-shadow: rgba(239, 68, 68, 0.25); --slider-bg: #FEE2E2; --slider-thumb: #EF4444; --btn-bg: #EF4444; --btn-text: #FFFFFF; }
+        body.theme-orange { --bg-body: #FFF7ED; --bg-player: #FFFFFF; --border-player: #FFEDD5; --text-main: #9A3412; --text-muted: #F97316; --orb-gradient: linear-gradient(135deg, #FB923C, #F97316, #C2410C); --orb-shadow: rgba(249, 115, 22, 0.25); --slider-bg: #FFEDD5; --slider-thumb: #F97316; --btn-bg: #F97316; --btn-text: #FFFFFF; }
+        body.theme-yellow { --bg-body: #FEFCE8; --bg-player: #FFFFFF; --border-player: #FEF9C3; --text-main: #854D0E; --text-muted: #EAB308; --orb-gradient: linear-gradient(135deg, #FDE047, #EAB308, #A16207); --orb-shadow: rgba(234, 179, 8, 0.25); --slider-bg: #FEF9C3; --slider-thumb: #EAB308; --btn-bg: #EAB308; --btn-text: #FFFFFF; }
+        body.theme-green { --bg-body: #F0FDF4; --bg-player: #FFFFFF; --border-player: #DCFCE7; --text-main: #166534; --text-muted: #22C55E; --orb-gradient: linear-gradient(135deg, #4ADE80, #22C55E, #15803D); --orb-shadow: rgba(34, 197, 94, 0.25); --slider-bg: #DCFCE7; --slider-thumb: #22C55E; --btn-bg: #22C55E; --btn-text: #FFFFFF; }
+        body.theme-blue { --bg-body: #EFF6FF; --bg-player: #FFFFFF; --border-player: #DBEAFE; --text-main: #1E40AF; --text-muted: #3B82F6; --orb-gradient: linear-gradient(135deg, #60A5FA, #3B82F6, #1D4ED8); --orb-shadow: rgba(59, 130, 246, 0.25); --slider-bg: #DBEAFE; --slider-thumb: #3B82F6; --btn-bg: #3B82F6; --btn-text: #FFFFFF; }
+        body.theme-purple { --bg-body: #FAF5FF; --bg-player: #FFFFFF; --border-player: #F3E8FF; --text-main: #6B21A8; --text-muted: #A855F7; --orb-gradient: linear-gradient(135deg, #C084FC, #A855F7, #7E22CE); --orb-shadow: rgba(168, 85, 247, 0.25); --slider-bg: #F3E8FF; --slider-thumb: #A855F7; --btn-bg: #A855F7; --btn-text: #FFFFFF; }
+        body.theme-pink { --bg-body: #FDF2F8; --bg-player: #FFFFFF; --border-player: #FCE7F3; --text-main: #9D174D; --text-muted: #EC4899; --orb-gradient: linear-gradient(135deg, #F472B6, #EC4899, #BE185D); --orb-shadow: rgba(236, 72, 153, 0.25); --slider-bg: #FCE7F3; --slider-thumb: #EC4899; --btn-bg: #EC4899; --btn-text: #FFFFFF; }
+        body.theme-white { --bg-body: #F4F4F5; --bg-player: #FFFFFF; --border-player: rgba(0,0,0,0.08); --text-main: #000000; --text-muted: #71717A; --orb-gradient: conic-gradient(from 180deg at 50% 50%, #E2E8F0 0deg, #FFFFFF 180deg, #E2E8F0 360deg); --orb-shadow: rgba(0,0,0,0.04); --slider-bg: #D4D4D8; --slider-thumb: #000000; --btn-bg: #000000; --btn-text: #FFFFFF; }
+
+        /* FIXED AUTOMATIC BLACKOUT RULES: Blanks out page background dark on all profiles in system Dark Mode [INDEX] */
+        @media (prefers-color-scheme: dark) {
+            body[class*="theme-"] { --bg-body: #050505 !important; }
+            body.theme-white { 
+                --bg-player: #0b0b0d !important; --border-player: #16161a !important; --text-main: #FFFFFF !important; --text-muted: #A3A3A3 !important;
+                --orb-gradient: linear-gradient(135deg, #0052D4 0%, #4364F7 50%, #6FB1FC 100%) !important; --orb-shadow: rgba(67, 100, 247, 0.35) !important;
+                --slider-bg: #1a1a1f !important; --slider-thumb: #ffffff !important; --btn-bg: #FFFFFF !important; --btn-text: #050505 !important;
+            }
         }
 
-        .app-container {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-            max-width: 340px;
-            gap: 25px;
-            align-items: center;
-        }
-        
-        .player-main {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-            background-color: var(--bg-player);
-            border: 1px solid var(--border-player);
-            border-radius: 24px;
-            padding: 30px 24px;
-            box-sizing: border-box;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
-            transition: background-color 0.3s ease, border-color 0.3s ease;
-        }
-
-        h2 { 
-            font-weight: 700; 
-            font-size: 24px;
-            letter-spacing: -0.5px; 
-            margin: 0 0 6px 0; 
-        }
-        #track-name { 
-            color: var(--text-muted); 
-            font-size: 14px; 
-            margin: 0 0 30px 0; 
-            padding: 0 5px; 
-            text-overflow: ellipsis; 
-            overflow: hidden; 
-            white-space: nowrap; 
-            width: 100%;
-            box-sizing: border-box;
-            text-align: center;
-        }
-        
-        .touch-pad { 
-            width: 170px; 
-            height: 170px; 
-            border-radius: 50%; 
-            background: var(--orb-gradient); 
-            box-shadow: 0 12px 30px var(--orb-shadow), inset 0 -4px 8px rgba(0,0,0,0.2); 
-            margin: 0 auto 30px auto; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            font-size: 46px; 
-            cursor: pointer; 
-            -webkit-tap-highlight-color: transparent; 
-            transition: transform 0.1s ease, background 0.3s ease; 
-        }
+        body { background-color: var(--bg-body); color: var(--text-main); font-family: system-ui, -apple-system, sans-serif; margin: 0; min-height: 100vh; box-sizing: border-box; display: flex; justify-content: center; align-items: center; padding: 30px 20px; transition: background-color 0.3s ease, color 0.3s ease; }
+        .app-container { display: flex; flex-direction: column; width: 100%; max-width: 340px; gap: 25px; align-items: center; }
+        .player-main { position: relative; display: flex; flex-direction: column; align-items: center; width: 100%; background-color: var(--bg-player); border: 1px solid var(--border-player); border-radius: 24px; padding: 30px 24px; box-sizing: border-box; box-shadow: 0 15px 35px rgba(0,0,0,0.1); transition: background-color 0.3s ease, border-color 0.3s ease; }
+        .settings-trigger { position: absolute; top: 22px; right: 22px; font-size: 18px; cursor: pointer; opacity: 0.6; -webkit-tap-highlight-color: transparent; z-index: 10; }
+        .settings-trigger:active { transform: scale(0.9); }
+        h2 { font-weight: 700; font-size: 24px; letter-spacing: -0.5px; margin: 0 0 6px 0; }
+        #track-name { color: var(--text-muted); font-size: 14px; margin: 0 0 30px 0; padding: 0 5px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; width: 100%; box-sizing: border-box; text-align: center; }
+        .touch-pad { width: 170px; height: 170px; border-radius: 50%; background: var(--orb-gradient); box-shadow: 0 12px 30px var(--orb-shadow), inset 0 -4px 8px rgba(0,0,0,0.12); margin: 0 auto 30px auto; display: flex; align-items: center; justify-content: center; font-size: 46px; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: transform 0.1s ease; }
         .touch-pad:active { transform: scale(0.95); }
-
-        .seeker-container {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            margin-bottom: 30px;
-            padding: 0 5px;
-            box-sizing: border-box;
-        }
-        .time-box {
-            display: flex;
-            justify-content: space-between;
-            font-size: 11px;
-            font-variant-numeric: tabular-nums;
-            color: var(--text-muted);
-        }
+        .seeker-container { width: 100%; display: flex; flex-direction: column; gap: 8px; margin-bottom: 30px; padding: 0 5px; box-sizing: border-box; }
+        .time-box { display: flex; justify-content: space-between; font-size: 11px; font-variant-numeric: tabular-nums; color: var(--text-muted); }
+        .slider { -webkit-appearance: none; width: 100%; height: 5px; border-radius: 10px; background: var(--slider-bg) !important; outline: none; cursor: pointer; transition: background 0.3s; }
         
-        .slider {
-            -webkit-appearance: none;
-            width: 100%;
-            height: 5px;
-            border-radius: 10px;
-            background: var(--slider-bg);
-            outline: none;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
         .slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            background: var(--slider-thumb);
-            box-shadow: 0 0 8px var(--orb-shadow);
+            -webkit-appearance: none !important; appearance: none !important; 
+            width: 16px !important; height: 16px !important; border-radius: 50% !important;
+            background: var(--slider-thumb) !important; 
+            box-shadow: 0 1px 4px rgba(0,0,0,0.2) !important;
             transition: background 0.3s ease;
         }
-        
         input[type="file"] { display: none; }
-        
-        .btn { 
-            background-color: var(--btn-bg); 
-            padding: 14px 20px; 
-            border-radius: 30px; 
-            border: none; 
-            color: var(--btn-text); 
-            font-weight: 700; 
-            font-size: 15px; 
-            cursor: pointer; 
-            display: inline-block; 
-            width: 100%;
-            box-sizing: border-box;
-            text-align: center;
-            -webkit-tap-highlight-color: transparent;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
+        .btn { background-color: var(--btn-bg); padding: 14px 20px; border-radius: 30px; border: none; color: var(--btn-text); font-weight: 700; font-size: 15px; cursor: pointer; display: inline-block; width: 100%; box-sizing: border-box; text-align: center; -webkit-tap-highlight-color: transparent; transition: background-color 0.3s ease, color 0.3s ease; }
         .btn:active { opacity: 0.85; }
+
+        /* FIXED DROPDOWN CABINET: Restored your exact clean 2-row rectangle grid layout [INDEX] */
+        .theme-panel { 
+            position: absolute; top: 55px; right: 22px; background: var(--bg-player); 
+            border: 1px solid var(--border-player); border-radius: 16px; padding: 10px; 
+            display: none; grid-template-columns: repeat(4, 1fr); gap: 10px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.18); z-index: 50; width: 200px; box-sizing: border-box;
+        }
+        .theme-opt { 
+            display: flex; align-items: center; justify-content: center;
+            font-size: 22px; width: 38px; height: 38px; border-radius: 10px; 
+            cursor: pointer; -webkit-tap-highlight-color: transparent;
+            transition: transform 0.1s ease, background-color 0.2s;
+        }
+        .theme-opt:active { transform: scale(0.9); background-color: rgba(0,0,0,0.06); }
+        .theme-opt.reset-opt { grid-column: span 4; width: 100%; height: 32px; font-size: 12px; font-weight: 700; color: var(--text-muted); border: 1px dashed var(--border-player); margin-top: 4px; }
     </style>
 </head>
 <body>
 
     <div class="app-container">
         <div class="player-main">
+            <div class="settings-trigger" id="gearBtn" onclick="toggleThemeDropdownPanel()">⚙️</div>
+            
+            <!-- FIXED PANEL CORE: 4 Color Emojis across 2 distinct rows with a clean reset button block at bottom [INDEX] -->
+            <div class="theme-panel" id="themeDropdownMenu">
+                <div class="theme-opt" title="Red" onclick="swapPlayerThemeProfile('RED')">🔴</div>
+                <div class="theme-opt" title="Orange" onclick="swapPlayerThemeProfile('ORANGE')">🟠</div>
+                <div class="theme-opt" title="Yellow" onclick="swapPlayerThemeProfile('YELLOW')">🟡</div>
+                <div class="theme-opt" title="Green" onclick="swapPlayerThemeProfile('GREEN')">🟢</div>
+                <div class="theme-opt" title="Blue" onclick="swapPlayerThemeProfile('BLUE')">🔵</div>
+                <div class="theme-opt" title="Purple" onclick="swapPlayerThemeProfile('PURPLE')">🟣</div>
+                <div class="theme-opt" title="Pink" onclick="swapPlayerThemeProfile('PINK')">🩷</div>
+                <div class="theme-opt" title="White" onclick="swapPlayerThemeProfile('WHITE')">⚪️</div>
+                <div class="theme-opt reset-opt" onclick="swapPlayerThemeProfile('AUTO')">🔄 Reset to Auto Mode</div>
+            </div>
+
             <h2>Offline Player</h2>
             <p id="track-name">No track loaded</p>
-            
             <div class="touch-pad" id="playBtn">▶️</div>
             
             <div class="seeker-container">
@@ -187,14 +131,12 @@
                 </div>
             </div>
             
-            <label class="btn">
-                Choose Audio File
-                <input type="file" id="audioFile" accept="*/*">
-            </label>
+            <label class="btn">Choose Audio File<input type="file" id="audioFile" accept="*/*"></label>
         </div>
     </div>
 
     <audio id="audioPlayer"></audio>
+
     <script>
         const audio = document.getElementById('audioPlayer');
         const playBtn = document.getElementById('playBtn');
@@ -203,13 +145,30 @@
         const seekSlider = document.getElementById('seekSlider');
         const currentTimeDisplay = document.getElementById('currentTime');
         const durationTimeDisplay = document.getElementById('durationTime');
+        const themeMenu = document.getElementById('themeDropdownMenu');
 
+        function toggleThemeDropdownPanel() {
+            themeMenu.style.display = themeMenu.style.display === 'grid' ? 'none' : 'grid';
+        }
+
+        function swapPlayerThemeProfile(mode) {
+            themeMenu.style.display = 'none';
+            document.body.className = ""; 
+            
+            if (mode !== 'AUTO') {
+                document.body.classList.add(`theme-${mode.toLowerCase()}`);
+                localStorage.setItem('playlist_manual_palette_cache', mode);
+            } else {
+                localStorage.setItem('playlist_manual_palette_cache', 'AUTO');
+            }
+        }
+
+        // COPIED FIXED LINE: Standard native local storage zero index file parser object [INDEX]
         fileInput.addEventListener('change', (e) => {
             const files = e.target.files;
             if (files && files.length > 0) {
                 const file = files[0];
                 trackName.innerText = file.name ? file.name : "Local Track File";
-                
                 audio.src = URL.createObjectURL(file);
                 audio.play();
                 playBtn.innerText = "⏸️";
@@ -218,42 +177,31 @@
 
         playBtn.addEventListener('click', () => {
             if (!audio.src) return; 
-            if (audio.paused) {
-                audio.play();
-                playBtn.innerText = "⏸️";
-            } else {
-                audio.pause();
-                playBtn.innerText = "▶️";
-            }
+            if (audio.paused) { audio.play(); playBtn.innerText = "⏸️"; } 
+            else { audio.pause(); playBtn.innerText = "▶️"; }
         });
 
         audio.addEventListener('timeupdate', () => {
             if (!isNaN(audio.duration)) {
-                const progress = (audio.currentTime / audio.duration) * 100;
-                seekSlider.value = progress;
+                seekSlider.value = (audio.currentTime / audio.duration) * 100;
                 currentTimeDisplay.innerText = formatTime(audio.currentTime);
             }
         });
 
-        audio.addEventListener('loadedmetadata', () => {
-            durationTimeDisplay.innerText = formatTime(audio.duration);
-        });
-
-        seekSlider.addEventListener('input', () => {
-            if (audio.src && !isNaN(audio.duration)) {
-                audio.currentTime = (seekSlider.value / 100) * audio.duration;
-            }
-        });
+        audio.addEventListener('loadedmetadata', () => { durationTimeDisplay.innerText = formatTime(audio.duration); });
+        seekSlider.addEventListener('input', () => { if (audio.src && !isNaN(audio.duration)) { audio.currentTime = (seekSlider.value / 100) * audio.duration; } });
 
         function formatTime(secs) {
-            const minutes = Math.floor(secs / 60);
-            const seconds = Math.floor(secs % 60);
+            const minutes = Math.floor(secs / 60); const seconds = Math.floor(secs % 60);
             return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
         }
 
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js');
-        }
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedMode = localStorage.getItem('playlist_manual_palette_cache') || 'AUTO';
+            swapPlayerThemeProfile(savedMode);
+        });
+
+        if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js'); }
     </script>
 </body>
 </html>
