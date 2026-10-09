@@ -7,7 +7,7 @@
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icon.png">
     <style>
-        /* BASELINE AUTOMATIC: Light state defaults */
+        /* AUTOMATIC STYLING CONFIGURATIONS: Default Light Mode */
         :root {
             --bg-body: #F0F7FF; 
             --bg-player: #FFFFFF; 
@@ -17,12 +17,12 @@
             --orb-gradient: linear-gradient(135deg, #60A5FA 0%, #3B82F6 50%, #1D4ED8 100%); 
             --orb-shadow: rgba(59, 130, 246, 0.25);
             --slider-bg: #E5E7EB;
-            --slider-thumb: #ffffff; /* Normal light mode system circle stays clean white */
+            --slider-thumb: #3B82F6; 
             --btn-bg: #1D4ED8; 
             --btn-text: #FFFFFF;
         }
 
-        /* BASELINE AUTOMATIC: Dark state defaults (Triggers matching device) */
+        /* AUTOMATIC STYLING CONFIGURATIONS: Default Dark Mode */
         @media (prefers-color-scheme: dark) {
             :root {
                 --bg-body: #050505;
@@ -33,102 +33,69 @@
                 --orb-gradient: linear-gradient(135deg, #0052D4 0%, #4364F7 50%, #6FB1FC 100%);
                 --orb-shadow: rgba(67, 100, 247, 0.35);
                 --slider-bg: #1a1a1f;
-                --slider-thumb: #ffffff; /* Normal dark mode system circle stays clean white */
+                --slider-thumb: #4364F7; 
                 --btn-bg: #FFFFFF;
                 --btn-text: #050505;
             }
         }
 
-        /* FIXED SPECIFIC MODE: Triggers ONLY when selecting the custom White Color Theme button */
-        body.color-theme-white-manual {
-            --bg-body: #F4F4F5 !important;
-            --bg-player: #ffffff !important;
-            --border-player: rgba(0,0,0,0.08) !important;
-            --text-main: #000000 !important;
-            --text-muted: #71717a !important;
-            --orb-gradient: linear-gradient(135deg, #E2E8F0 0deg, #FFFFFF 180deg, #E2E8F0 360deg) !important;
-            --orb-shadow: rgba(0,0,0,0.05) !important;
-            --slider-bg: #d4d4d8 !important;
-            /* CRITICAL OVERWRITE: Force tracker circle to turn solid black inside this manual state [INDEX] */
-            --slider-thumb: #000000 !important; 
-            --btn-bg: #000000 !important;
-            --btn-text: #ffffff !important;
+        /* MANUAL PALETTE ENGINE CONFIGURATIONS */
+        body.theme-red { --bg-body: #FEF2F2; --bg-player: #FFFFFF; --border-player: #FEE2E2; --text-main: #991B1B; --text-muted: #EF4444; --orb-gradient: linear-gradient(135deg, #F87171, #EF4444, #B91C1C); --orb-shadow: rgba(239, 68, 68, 0.25); --slider-bg: #FEE2E2; --slider-thumb: #EF4444; --btn-bg: #EF4444; --btn-text: #FFFFFF; }
+        body.theme-orange { --bg-body: #FFF7ED; --bg-player: #FFFFFF; --border-player: #FFEDD5; --text-main: #9A3412; --text-muted: #F97316; --orb-gradient: linear-gradient(135deg, #FB923C, #F97316, #C2410C); --orb-shadow: rgba(249, 115, 22, 0.25); --slider-bg: #FFEDD5; --slider-thumb: #F97316; --btn-bg: #F97316; --btn-text: #FFFFFF; }
+        body.theme-yellow { --bg-body: #FEFCE8; --bg-player: #FFFFFF; --border-player: #FEF9C3; --text-main: #854D0E; --text-muted: #EAB308; --orb-gradient: linear-gradient(135deg, #FDE047, #EAB308, #A16207); --orb-shadow: rgba(234, 179, 8, 0.25); --slider-bg: #FEF9C3; --slider-thumb: #EAB308; --btn-bg: #EAB308; --btn-text: #FFFFFF; }
+        body.theme-green { --bg-body: #F0FDF4; --bg-player: #FFFFFF; --border-player: #DCFCE7; --text-main: #166534; --text-muted: #22C55E; --orb-gradient: linear-gradient(135deg, #4ADE80, #22C55E, #15803D); --orb-shadow: rgba(34, 197, 94, 0.25); --slider-bg: #DCFCE7; --slider-thumb: #22C55E; --btn-bg: #22C55E; --btn-text: #FFFFFF; }
+        body.theme-blue { --bg-body: #EFF6FF; --bg-player: #FFFFFF; --border-player: #DBEAFE; --text-main: #1E40AF; --text-muted: #3B82F6; --orb-gradient: linear-gradient(135deg, #60A5FA, #3B82F6, #1D4ED8); --orb-shadow: rgba(59, 130, 246, 0.25); --slider-bg: #DBEAFE; --slider-thumb: #3B82F6; --btn-bg: #3B82F6; --btn-text: #FFFFFF; }
+        body.theme-purple { --bg-body: #FAF5FF; --bg-player: #FFFFFF; --border-player: #F3E8FF; --text-main: #6B21A8; --text-muted: #A855F7; --orb-gradient: linear-gradient(135deg, #C084FC, #A855F7, #7E22CE); --orb-shadow: rgba(168, 85, 247, 0.25); --slider-bg: #F3E8FF; --slider-thumb: #A855F7; --btn-bg: #A855F7; --btn-text: #FFFFFF; }
+        body.theme-pink { --bg-body: #FDF2F8; --bg-player: #FFFFFF; --border-player: #FCE7F3; --text-main: #9D174D; --text-muted: #EC4899; --orb-gradient: linear-gradient(135deg, #F472B6, #EC4899, #BE185D); --orb-shadow: rgba(236, 72, 153, 0.25); --slider-bg: #FCE7F3; --slider-thumb: #EC4899; --btn-bg: #EC4899; --btn-text: #FFFFFF; }
+        
+        /* HARDCODED WHITE COLOR THEME PROFILE (Automatic adaptation based on device mode) */
+        body.theme-white { 
+            --bg-body: #F4F4F5 !important; 
+            --bg-player: #FFFFFF !important; 
+            --border-player: rgba(0,0,0,0.08) !important; 
+            --text-main: #000000 !important; 
+            --text-muted: #71717A !important; 
+            --orb-gradient: conic-gradient(from 180deg at 50% 50%, #E2E8F0 0deg, #FFFFFF 180deg, #E2E8F0 360deg) !important; 
+            --orb-shadow: rgba(0,0,0,0.04) !important; 
+            --slider-bg: #D4D4D8 !important; 
+            --slider-thumb: #000000 !important; /* Default to black in light mode */
+            --btn-bg: #000000 !important; 
+            --btn-text: #FFFFFF !important; 
         }
 
-        body { 
-            background-color: var(--bg-body); 
-            color: var(--text-main); 
-            font-family: system-ui, -apple-system, sans-serif; 
-            margin: 0; min-height: 100vh; box-sizing: border-box;
-            display: flex; justify-content: center; align-items: center; padding: 30px 20px;
-            transition: background-color 0.3s ease, color 0.3s ease;
+        /* FIXED DYNAMIC ADAPTATION: White Color Theme when iPad runs in system Dark Mode */
+        @media (prefers-color-scheme: dark) {
+            body.theme-white {
+                --slider-thumb: #ffffff !important; /* Automatically flips to solid white so it doesn't vanish against the dark canvas! */
+            }
         }
 
+        body { background-color: var(--bg-body); color: var(--text-main); font-family: system-ui, -apple-system, sans-serif; margin: 0; min-height: 100vh; box-sizing: border-box; display: flex; justify-content: center; align-items: center; padding: 30px 20px; transition: background-color 0.3s ease, color 0.3s ease; }
         .app-container { display: flex; flex-direction: column; width: 100%; max-width: 340px; gap: 25px; align-items: center; }
-        .player-main {
-            position: relative; display: flex; flex-direction: column; align-items: center; width: 100%;
-            background-color: var(--bg-player); border: 1px solid var(--border-player); border-radius: 24px;
-            padding: 30px 24px; box-sizing: border-box; box-shadow: 0 15px 35px rgba(0,0,0,0.12);
-            transition: background-color 0.3s ease, border-color 0.3s ease;
-        }
-
-        .settings-trigger {
-            position: absolute; top: 22px; right: 22px; font-size: 18px; cursor: pointer;
-            opacity: 0.6; -webkit-tap-highlight-color: transparent; z-index: 10;
-        }
+        .player-main { position: relative; display: flex; flex-direction: column; align-items: center; width: 100%; background-color: var(--bg-player); border: 1px solid var(--border-player); border-radius: 24px; padding: 30px 24px; box-sizing: border-box; box-shadow: 0 15px 35px rgba(0,0,0,0.1); transition: background-color 0.3s ease, border-color 0.3s ease; }
+        .settings-trigger { position: absolute; top: 22px; right: 22px; font-size: 18px; cursor: pointer; opacity: 0.6; -webkit-tap-highlight-color: transparent; z-index: 10; }
         .settings-trigger:active { transform: scale(0.9); }
-
         h2 { font-weight: 700; font-size: 24px; letter-spacing: -0.5px; margin: 0 0 6px 0; }
-        
-        #track-name { 
-            color: var(--text-muted); font-size: 14px; margin: 0 0 30px 0; padding: 0 5px; 
-            text-overflow: ellipsis; overflow: hidden; white-space: nowrap; width: 100%;
-            box-sizing: border-box; text-align: center;
-        }
-        
-        .touch-pad { 
-            width: 170px; height: 170px; border-radius: 50%; 
-            background: var(--orb-gradient); 
-            box-shadow: 0 12px 30px var(--orb-shadow), inset 0 -4px 8px rgba(0,0,0,0.15); 
-            margin: 0 auto 30px auto; display: flex; align-items: center; justify-content: center; 
-            font-size: 46px; cursor: pointer; -webkit-tap-highlight-color: transparent; 
-            transition: transform 0.1s ease; 
-        }
+        #track-name { color: var(--text-muted); font-size: 14px; margin: 0 0 30px 0; padding: 0 5px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; width: 100%; box-sizing: border-box; text-align: center; }
+        .touch-pad { width: 170px; height: 170px; border-radius: 50%; background: var(--orb-gradient); box-shadow: 0 12px 30px var(--orb-shadow), inset 0 -4px 8px rgba(0,0,0,0.12); margin: 0 auto 30px auto; display: flex; align-items: center; justify-content: center; font-size: 46px; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: transform 0.1s ease; }
         .touch-pad:active { transform: scale(0.95); }
-
         .seeker-container { width: 100%; display: flex; flex-direction: column; gap: 8px; margin-bottom: 30px; padding: 0 5px; box-sizing: border-box; }
         .time-box { display: flex; justify-content: space-between; font-size: 11px; font-variant-numeric: tabular-nums; color: var(--text-muted); }
-        
         .slider { -webkit-appearance: none; width: 100%; height: 5px; border-radius: 10px; background: var(--slider-bg) !important; outline: none; cursor: pointer; transition: background 0.3s; }
         
-        /* Premium custom slider circle layout thumb injection configs */
         .slider::-webkit-slider-thumb {
             -webkit-appearance: none !important; appearance: none !important; 
             width: 16px !important; height: 16px !important; border-radius: 50% !important;
             background: var(--slider-thumb) !important; 
-            box-shadow: 0 1px 4px rgba(0,0,0,0.3) !important;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.2) !important;
             transition: background 0.3s ease;
         }
-        
         input[type="file"] { display: none; }
-        
-        .btn { 
-            background-color: var(--btn-bg); padding: 14px 20px; border-radius: 30px; border: none; 
-            color: var(--btn-text); font-weight: 700; font-size: 15px; cursor: pointer; 
-            display: inline-block; width: 100%; box-sizing: border-box; text-align: center; -webkit-tap-highlight-color: transparent;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
+        .btn { background-color: var(--btn-bg); padding: 14px 20px; border-radius: 30px; border: none; color: var(--btn-text); font-weight: 700; font-size: 15px; cursor: pointer; display: inline-block; width: 100%; box-sizing: border-box; text-align: center; -webkit-tap-highlight-color: transparent; transition: background-color 0.3s ease, color 0.3s ease; }
         .btn:active { opacity: 0.85; }
 
-        .theme-panel {
-            position: absolute; top: 52px; right: 22px; background: var(--bg-player);
-            border: 1px solid var(--border-player); border-radius: 14px; padding: 8px;
-            display: none; flex-direction: column; gap: 4px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); z-index: 40;
-        }
-        .theme-opt {
-            padding: 8px 16px; font-size: 12px; font-weight: 600; border-radius: 8px;
-            cursor: pointer; text-align: left; min-width: 130px; color: var(--text-main);
-        }
+        .theme-panel { position: absolute; top: 52px; right: 22px; background: var(--bg-player); border: 1px solid var(--border-player); border-radius: 14px; padding: 8px; display: none; flex-direction: column; gap: 4px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); z-index: 40; max-height: 240px; overflow-y: auto; }
+        .theme-opt { padding: 6px 12px; font-size: 11px; font-weight: 600; border-radius: 8px; cursor: pointer; text-align: left; min-width: 140px; color: var(--text-main); }
         .theme-opt:active { background: rgba(0,0,0,0.05); }
     </style>
 </head>
@@ -136,17 +103,22 @@
 
     <div class="app-container">
         <div class="player-main">
-            <!-- Gear Icon configuration trigger drop decks -->
             <div class="settings-trigger" id="gearBtn" onclick="toggleThemeDropdownPanel()">⚙️</div>
             
             <div class="theme-panel" id="themeDropdownMenu">
-                <div class="theme-opt" onclick="swapPlayerThemeProfile('AUTO')">🔄 Auto Device Mode</div>
-                <div class="theme-opt" onclick="swapPlayerThemeProfile('WHITE_COLOR_THEME')">☀️ White Color Theme</div>
+                <div class="theme-opt" style="color:#3B82F6;" onclick="swapPlayerThemeProfile('AUTO')">🔄 Auto Device Mode</div>
+                <div class="theme-opt" style="color:#EF4444;" onclick="swapPlayerThemeProfile('RED')">🔴 Red Theme</div>
+                <div class="theme-opt" style="color:#F97316;" onclick="swapPlayerThemeProfile('ORANGE')">🟠 Orange Theme</div>
+                <div class="theme-opt" style="color:#EAB308;" onclick="swapPlayerThemeProfile('YELLOW')">🟡 Yellow Theme</div>
+                <div class="theme-opt" style="color:#22C55E;" onclick="swapPlayerThemeProfile('GREEN')">🟢 Green Theme</div>
+                <div class="theme-opt" style="color:#3B82F6;" onclick="swapPlayerThemeProfile('BLUE')">BLUE Theme</div>
+                <div class="theme-opt" style="color:#A855F7;" onclick="swapPlayerThemeProfile('PURPLE')">🟣 Purple Theme</div>
+                <div class="theme-opt" style="color:#EC4899;" onclick="swapPlayerThemeProfile('PINK')">🌸 Pink Theme</div>
+                <div class="theme-opt" style="color:#71717A;" onclick="swapPlayerThemeProfile('WHITE')">☀️ White Color Theme</div>
             </div>
 
             <h2>Offline Player</h2>
             <p id="track-name">No track loaded</p>
-            
             <div class="touch-pad" id="playBtn">▶️</div>
             
             <div class="seeker-container">
@@ -162,6 +134,7 @@
     </div>
 
     <audio id="audioPlayer"></audio>
+
     <script>
         const audio = document.getElementById('audioPlayer');
         const playBtn = document.getElementById('playBtn');
@@ -178,13 +151,13 @@
 
         function swapPlayerThemeProfile(mode) {
             themeMenu.style.display = 'none';
-            document.body.className = ""; // Reset custom modifier selectors
+            document.body.className = ""; 
             
-            if (mode === 'WHITE_COLOR_THEME') {
-                document.body.classList.add('color-theme-white-manual');
-                localStorage.setItem('player_manual_theme_selection', 'WHITE_COLOR_THEME');
+            if (mode !== 'AUTO') {
+                document.body.classList.add(`theme-${mode.toLowerCase()}`);
+                localStorage.setItem('playlist_manual_palette_cache', mode);
             } else {
-                localStorage.setItem('player_manual_theme_selection', 'AUTO');
+                localStorage.setItem('playlist_manual_palette_cache', 'AUTO');
             }
         }
 
@@ -221,7 +194,7 @@
         }
 
         window.addEventListener('DOMContentLoaded', () => {
-            const savedMode = localStorage.getItem('player_manual_theme_selection') || 'AUTO';
+            const savedMode = localStorage.getItem('playlist_manual_palette_cache') || 'AUTO';
             swapPlayerThemeProfile(savedMode);
         });
 
