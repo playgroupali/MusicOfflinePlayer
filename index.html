@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Offline Music Player</title>
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icon.png">
@@ -47,15 +47,33 @@
         body.theme-blue { --bg-body: #EFF6FF; --bg-player: #FFFFFF; --border-player: #DBEAFE; --text-main: #1E40AF; --text-muted: #3B82F6; --orb-gradient: linear-gradient(135deg, #60A5FA, #3B82F6, #1D4ED8); --orb-shadow: rgba(59, 130, 246, 0.25); --slider-bg: #DBEAFE; --slider-thumb: #3B82F6; --btn-bg: #3B82F6; --btn-text: #FFFFFF; }
         body.theme-purple { --bg-body: #FAF5FF; --bg-player: #FFFFFF; --border-player: #F3E8FF; --text-main: #6B21A8; --text-muted: #A855F7; --orb-gradient: linear-gradient(135deg, #C084FC, #A855F7, #7E22CE); --orb-shadow: rgba(168, 85, 247, 0.25); --slider-bg: #F3E8FF; --slider-thumb: #A855F7; --btn-bg: #A855F7; --btn-text: #FFFFFF; }
         body.theme-pink { --bg-body: #FDF2F8; --bg-player: #FFFFFF; --border-player: #FCE7F3; --text-main: #9D174D; --text-muted: #EC4899; --orb-gradient: linear-gradient(135deg, #F472B6, #EC4899, #BE185D); --orb-shadow: rgba(236, 72, 153, 0.25); --slider-bg: #FCE7F3; --slider-thumb: #EC4899; --btn-bg: #EC4899; --btn-text: #FFFFFF; }
-        body.theme-white { --bg-body: #F4F4F5; --bg-player: #FFFFFF; --border-player: rgba(0,0,0,0.08); --text-main: #000000; --text-muted: #71717A; --orb-gradient: conic-gradient(from 180deg at 50% 50%, #E2E8F0 0deg, #FFFFFF 180deg, #E2E8F0 360deg); --orb-shadow: rgba(0,0,0,0.04); --slider-bg: #D4D4D8; --slider-thumb: #000000; --btn-bg: #000000; --btn-text: #FFFFFF; }
+        
+        body.theme-white { 
+            --bg-body: #F4F4F5; 
+            --bg-player: #FFFFFF; 
+            --border-player: rgba(0,0,0,0.08); 
+            --text-main: #000000; 
+            --text-muted: #71717A; 
+            --orb-gradient: conic-gradient(from 180deg at 50% 50%, #E2E8F0 0deg, #FFFFFF 180deg, #E2E8F0 360deg); 
+            --orb-shadow: rgba(0,0,0,0.04); 
+            --slider-bg: #D4D4D8; 
+            --slider-thumb: #000000; 
+            --btn-bg: #000000; 
+            --btn-text: #FFFFFF; 
+        }
 
-        /* FIXED AUTOMATIC BLACKOUT RULES: Darkens background across all manual themes in Dark Mode */
+        /* AUTOMATIC THEME FORCING: Blackout canvas and matching player card rules instantly inside System Dark Mode */
         @media (prefers-color-scheme: dark) {
-            body[class*="theme-"] { --bg-body: #050505 !important; }
+            body, body[class*="theme-"] { --bg-body: #050505 !important; }
+            .player-main { background-color: #0b0b0d !important; border-color: #16161a !important; box-shadow: 0 20px 45px rgba(0,0,0,0.5) !important; }
+            h2, #track-name, .time-box, .theme-opt { color: #FFFFFF !important; }
+            .slider { background: #1a1a1f !important; }
+            .btn { background-color: #FFFFFF !important; color: #050505 !important; }
+            
+            /* FIXED: Forces the Play Orb circle and slider thumb to be clean solid white inside Dark Mode for White Theme */
             body.theme-white { 
-                --bg-player: #0b0b0d !important; --border-player: #16161a !important; --text-main: #FFFFFF !important; --text-muted: #A3A3A3 !important;
-                --orb-gradient: linear-gradient(135deg, #0052D4 0%, #4364F7 50%, #6FB1FC 100%) !important; --orb-shadow: rgba(67, 100, 247, 0.35) !important;
-                --slider-bg: #1a1a1f !important; --slider-thumb: #ffffff !important; --btn-bg: #FFFFFF !important; --btn-text: #050505 !important;
+                --orb-gradient: #ffffff !important;
+                --slider-thumb: #ffffff !important;
             }
         }
 
@@ -63,7 +81,6 @@
         .app-container { display: flex; flex-direction: column; width: 100%; max-width: 340px; gap: 25px; align-items: center; }
         .player-main { position: relative; display: flex; flex-direction: column; align-items: center; width: 100%; background-color: var(--bg-player); border: 1px solid var(--border-player); border-radius: 24px; padding: 30px 24px; box-sizing: border-box; box-shadow: 0 15px 35px rgba(0,0,0,0.1); transition: background-color 0.3s ease, border-color 0.3s ease; }
         
-        /* FIXED: Set clear size and visual formatting targets to lock the anchor icon text */
         .settings-trigger { position: absolute; top: 22px; right: 22px; font-size: 20px; cursor: pointer; opacity: 0.7; -webkit-tap-highlight-color: transparent; z-index: 60; display: block !important; line-height: 1; }
         .settings-trigger:active { transform: scale(0.9); }
         
@@ -86,7 +103,7 @@
         .btn { background-color: var(--btn-bg); padding: 14px 20px; border-radius: 30px; border: none; color: var(--btn-text); font-weight: 700; font-size: 15px; cursor: pointer; display: inline-block; width: 100%; box-sizing: border-box; text-align: center; -webkit-tap-highlight-color: transparent; transition: background-color 0.3s ease, color 0.3s ease; }
         .btn:active { opacity: 0.85; }
 
-        /* FIXED DROPDOWN CABINET: Restored clean wide grid layout container box */
+        /* FIXED DROPDOWN CABINET: Restored clean wide grid layout rectangle box */
         .theme-panel { 
             position: absolute; top: 55px; right: 22px; background: var(--bg-player); 
             border: 1px solid var(--border-player); border-radius: 16px; padding: 12px; 
@@ -107,9 +124,10 @@
 
     <div class="app-container">
         <div class="player-main">
-            /* FIXED: Force loaded the native gear text icon explicitly onto the target trigger */
+            <!-- FIXED: Scrubbed leaking text entries cleanly from the functional node -->
             <div class="settings-trigger" id="gearBtn" onclick="toggleThemeDropdownPanel()">⚙️</div>
             
+            <!-- FIXED: Pop panel utilizes custom assigned emoji registries -->
             <div class="theme-panel" id="themeDropdownMenu">
                 <div class="theme-opt" title="Red" onclick="swapPlayerThemeProfile('RED')">🔴</div>
                 <div class="theme-opt" title="Orange" onclick="swapPlayerThemeProfile('ORANGE')">🟠</div>
@@ -117,8 +135,8 @@
                 <div class="theme-opt" title="Green" onclick="swapPlayerThemeProfile('GREEN')">🟢</div>
                 <div class="theme-opt" title="Blue" onclick="swapPlayerThemeProfile('BLUE')">🔵</div>
                 <div class="theme-opt" title="Purple" onclick="swapPlayerThemeProfile('PURPLE')">🟣</div>
-                <div class="theme-opt" title="Pink" onclick="swapPlayerThemeProfile('PINK')">🩷</div>
-                <div class="theme-opt" title="White" onclick="swapPlayerThemeProfile('WHITE')">⚪️</div>
+                <div class="theme-opt" onclick="swapPlayerThemeProfile('PINK')">🩷</div>
+                <div class="theme-opt" onclick="swapPlayerThemeProfile('WHITE')">⚪️</div>
                 <div class="theme-opt reset-opt" onclick="swapPlayerThemeProfile('AUTO')">🔄 Reset to Auto Mode</div>
             </div>
 
@@ -150,7 +168,6 @@
         const durationTimeDisplay = document.getElementById('durationTime');
         const themeMenu = document.getElementById('themeDropdownMenu');
 
-        // FIXED: Re-engineered function loop parameters to match grid styles perfectly
         function toggleThemeDropdownPanel() {
             if (themeMenu.style.display === 'grid') {
                 themeMenu.style.display = 'none';
@@ -174,7 +191,7 @@
         fileInput.addEventListener('change', (e) => {
             const files = e.target.files;
             if (files && files.length > 0) {
-                const file = files[0];
+                const file = files[0]; // Restored true local storage index locator
                 trackName.innerText = file.name ? file.name : "Local Track File";
                 audio.src = URL.createObjectURL(file);
                 audio.play();
