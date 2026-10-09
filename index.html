@@ -39,7 +39,7 @@
             }
         }
 
-        /* RESTORED PALETTE ENGINE: Keeps every single one of your original color themes [INDEX] */
+        /* MANUAL PALETTE ENGINE OPTIONS (Light Mode States) */
         body.theme-red { --bg-body: #FEF2F2; --bg-player: #FFFFFF; --border-player: #FEE2E2; --text-main: #991B1B; --text-muted: #EF4444; --orb-gradient: linear-gradient(135deg, #F87171, #EF4444, #B91C1C); --orb-shadow: rgba(239, 68, 68, 0.25); --slider-bg: #FEE2E2; --slider-thumb: #EF4444; --btn-bg: #EF4444; --btn-text: #FFFFFF; }
         body.theme-orange { --bg-body: #FFF7ED; --bg-player: #FFFFFF; --border-player: #FFEDD5; --text-main: #9A3412; --text-muted: #F97316; --orb-gradient: linear-gradient(135deg, #FB923C, #F97316, #C2410C); --orb-shadow: rgba(249, 115, 22, 0.25); --slider-bg: #FFEDD5; --slider-thumb: #F97316; --btn-bg: #F97316; --btn-text: #FFFFFF; }
         body.theme-yellow { --bg-body: #FEFCE8; --bg-player: #FFFFFF; --border-player: #FEF9C3; --text-main: #854D0E; --text-muted: #EAB308; --orb-gradient: linear-gradient(135deg, #FDE047, #EAB308, #A16207); --orb-shadow: rgba(234, 179, 8, 0.25); --slider-bg: #FEF9C3; --slider-thumb: #EAB308; --btn-bg: #EAB308; --btn-text: #FFFFFF; }
@@ -47,27 +47,12 @@
         body.theme-blue { --bg-body: #EFF6FF; --bg-player: #FFFFFF; --border-player: #DBEAFE; --text-main: #1E40AF; --text-muted: #3B82F6; --orb-gradient: linear-gradient(135deg, #60A5FA, #3B82F6, #1D4ED8); --orb-shadow: rgba(59, 130, 246, 0.25); --slider-bg: #DBEAFE; --slider-thumb: #3B82F6; --btn-bg: #3B82F6; --btn-text: #FFFFFF; }
         body.theme-purple { --bg-body: #FAF5FF; --bg-player: #FFFFFF; --border-player: #F3E8FF; --text-main: #6B21A8; --text-muted: #A855F7; --orb-gradient: linear-gradient(135deg, #C084FC, #A855F7, #7E22CE); --orb-shadow: rgba(168, 85, 247, 0.25); --slider-bg: #F3E8FF; --slider-thumb: #A855F7; --btn-bg: #A855F7; --btn-text: #FFFFFF; }
         body.theme-pink { --bg-body: #FDF2F8; --bg-player: #FFFFFF; --border-player: #FCE7F3; --text-main: #9D174D; --text-muted: #EC4899; --orb-gradient: linear-gradient(135deg, #F472B6, #EC4899, #BE185D); --orb-shadow: rgba(236, 72, 153, 0.25); --slider-bg: #FCE7F3; --slider-thumb: #EC4899; --btn-bg: #EC4899; --btn-text: #FFFFFF; }
-        
-        /* THE TARGETED FIX: Direct standalone overwrite rule for your manual White Theme option [INDEX] */
-        body.theme-white { 
-            --bg-body: #F4F4F5 !important; 
-            --bg-player: #FFFFFF !important; 
-            --border-player: rgba(0,0,0,0.08) !important; 
-            --text-main: #000000 !important; 
-            --text-muted: #71717A !important; 
-            --orb-gradient: conic-gradient(from 180deg at 50% 50%, #E2E8F0 0deg, #FFFFFF 180deg, #E2E8F0 360deg) !important; 
-            --orb-shadow: rgba(0,0,0,0.04) !important; 
-            --slider-bg: #D4D4D8 !important; 
-            --slider-thumb: #000000 !important; /* FIXED: Automatically turns solid black in Light Mode [INDEX] */
-            --btn-bg: #000000 !important; 
-            --btn-text: #FFFFFF !important; 
-        }
+        body.theme-white { --bg-body: #F4F4F5; --bg-player: #FFFFFF; --border-player: rgba(0,0,0,0.08); --text-main: #000000; --text-muted: #71717A; --orb-gradient: conic-gradient(from 180deg at 50% 50%, #E2E8F0 0deg, #FFFFFF 180deg, #E2E8F0 360deg); --orb-shadow: rgba(0,0,0,0.04); --slider-bg: #D4D4D8; --slider-thumb: #000000; --btn-bg: #000000; --btn-text: #FFFFFF; }
 
-        /* FIXED: Forces the tracker circle to flip to white if device switches to Dark Mode while White Theme is active [INDEX] */
+        /* FIXED SYSTEM TRANSITION: Automatically forces background dark across all manual themes in Dark Mode [INDEX] */
         @media (prefers-color-scheme: dark) {
-            body.theme-white {
-                --slider-thumb: #ffffff !important; 
-            }
+            body[class*="theme-"] { --bg-body: #050505 !important; }
+            body.theme-white { --slider-thumb: #ffffff !important; }
         }
 
         body { background-color: var(--bg-body); color: var(--text-main); font-family: system-ui, -apple-system, sans-serif; margin: 0; min-height: 100vh; box-sizing: border-box; display: flex; justify-content: center; align-items: center; padding: 30px 20px; transition: background-color 0.3s ease, color 0.3s ease; }
@@ -83,7 +68,6 @@
         .time-box { display: flex; justify-content: space-between; font-size: 11px; font-variant-numeric: tabular-nums; color: var(--text-muted); }
         .slider { -webkit-appearance: none; width: 100%; height: 5px; border-radius: 10px; background: var(--slider-bg) !important; outline: none; cursor: pointer; transition: background 0.3s; }
         
-        /* Hardware thumb variables injector forcing the custom color rules [INDEX] */
         .slider::-webkit-slider-thumb {
             -webkit-appearance: none !important; appearance: none !important; 
             width: 16px !important; height: 16px !important; border-radius: 50% !important;
@@ -95,7 +79,6 @@
         .btn { background-color: var(--btn-bg); padding: 14px 20px; border-radius: 30px; border: none; color: var(--btn-text); font-weight: 700; font-size: 15px; cursor: pointer; display: inline-block; width: 100%; box-sizing: border-box; text-align: center; -webkit-tap-highlight-color: transparent; transition: background-color 0.3s ease, color 0.3s ease; }
         .btn:active { opacity: 0.85; }
 
-        /* Master Dropdown Theme Settings Card Panel */
         .theme-panel { position: absolute; top: 52px; right: 22px; background: var(--bg-player); border: 1px solid var(--border-player); border-radius: 14px; padding: 8px; display: none; flex-direction: column; gap: 4px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); z-index: 40; max-height: 240px; overflow-y: auto; }
         .theme-opt { padding: 8px 16px; font-size: 12px; font-weight: 600; border-radius: 8px; cursor: pointer; text-align: left; min-width: 150px; color: var(--text-main); }
         .theme-opt:active { background: rgba(0,0,0,0.05); }
@@ -105,7 +88,6 @@
 
     <div class="app-container">
         <div class="player-main">
-            <!-- Gear Icon Trigger Panel Links -->
             <div class="settings-trigger" id="gearBtn" onclick="toggleThemeDropdownPanel()">⚙️</div>
             
             <div class="theme-panel" id="themeDropdownMenu">
@@ -148,13 +130,14 @@
         const durationTimeDisplay = document.getElementById('durationTime');
         const themeMenu = document.getElementById('themeDropdownMenu');
 
+        // Handles menu toggle logic loops safely
         function toggleThemeDropdownPanel() {
             themeMenu.style.display = themeMenu.style.display === 'flex' ? 'none' : 'flex';
         }
 
         function swapPlayerThemeProfile(mode) {
             themeMenu.style.display = 'none';
-            document.body.className = ""; // Completely wipe active state classes
+            document.body.className = ""; 
             
             if (mode !== 'AUTO') {
                 document.body.classList.add(`theme-${mode.toLowerCase()}`);
@@ -167,7 +150,7 @@
         fileInput.addEventListener('change', (e) => {
             const files = e.target.files;
             if (files && files.length > 0) {
-                const file = files;
+                const file = files[0];
                 trackName.innerText = file.name ? file.name : "Local Track File";
                 audio.src = URL.createObjectURL(file);
                 audio.play();
