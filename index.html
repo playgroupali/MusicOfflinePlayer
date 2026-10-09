@@ -7,7 +7,7 @@
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icon.png">
     <style>
-        /* CSS Root Tokens - Light Mode Baseline Defaults */
+        /* BASELINE: Automatic Light Theme Profile Styles */
         :root {
             --bg-body: #F0F4F8;
             --bg-player: #ffffff;
@@ -16,25 +16,27 @@
             --text-muted: #6b7280;
             --orb-bg: conic-gradient(from 180deg at 50% 50%, #E2E8F0 0deg, #FFFFFF 180deg, #E2E8F0 360deg);
             --orb-shadow: rgba(0,0,0,0.06);
-            --slider-bg: #D1D5DB !important; /* Force distinct dark gray track rule */
-            --slider-thumb: #000000 !important; /* Force solid black slider circle rule */
+            --slider-bg: #D1D5DB; /* Clear gray timeline track */
+            --slider-thumb: #000000; /* FIXED: Solid black circle on White Theme */
             --btn-bg: #111827;
             --btn-text: #ffffff;
         }
 
-        /* Dark Mode Styling Configurations Overrides */
-        body.theme-dark {
-            --bg-body: #050505;
-            --bg-player: #0b0b0d;
-            --border-player: #16161a;
-            --text-main: #FFFFFF;
-            --text-muted: #A3A3A3;
-            --orb-gradient: linear-gradient(135deg, #0052D4 0%, #4364F7 50%, #6FB1FC 100%);
-            --orb-shadow: rgba(67, 100, 247, 0.35);
-            --slider-bg: #1a1a1f !important;
-            --slider-thumb: #ffffff !important; /* White slider circle in dark mode */
-            --btn-bg: #FFFFFF;
-            --btn-text: #050505;
+        /* AUTOMATIC: Dark Theme Profile Styles (Triggers via iOS settings) */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-body: #050505;
+                --bg-player: #0b0b0d;
+                --border-player: #16161a;
+                --text-main: #FFFFFF;
+                --text-muted: #A3A3A3;
+                --orb-bg: linear-gradient(135deg, #0052D4 0%, #4364F7 50%, #6FB1FC 100%);
+                --orb-shadow: rgba(67, 100, 247, 0.35);
+                --slider-bg: #1a1a1f;
+                --slider-thumb: #ffffff; /* FIXED: Solid white circle on Dark Theme */
+                --btn-bg: #FFFFFF;
+                --btn-text: #050505;
+            }
         }
 
         body { 
@@ -54,12 +56,6 @@
             transition: background-color 0.3s, border-color 0.3s;
         }
 
-        .settings-trigger {
-            position: absolute; top: 20px; right: 20px; font-size: 18px; cursor: pointer;
-            opacity: 0.6; -webkit-tap-highlight-color: transparent; z-index: 10;
-        }
-        .settings-trigger:active { transform: scale(0.9); }
-
         h2 { font-weight: 700; font-size: 22px; letter-spacing: -0.5px; margin: 0 0 6px 0; color: var(--text-main); text-align: center; }
         #track-name { 
             color: var(--text-muted); font-size: 13px; margin: 0 0 30px 0; padding: 0 5px; 
@@ -69,7 +65,7 @@
         
         .touch-pad { 
             width: 155px; height: 155px; border-radius: 50%; 
-            background: var(--orb-bg, var(--orb-gradient)); 
+            background: var(--orb-bg); 
             box-shadow: 0 10px 25px var(--orb-shadow), inset 0 -3px 6px rgba(0,0,0,0.1); 
             margin: 0 auto 30px auto; display: flex; align-items: center; justify-content: center; 
             font-size: 38px; cursor: pointer; -webkit-tap-highlight-color: transparent; 
@@ -79,14 +75,15 @@
         .seeker-container { width: 100%; display: flex; flex-direction: column; gap: 8px; margin-bottom: 30px; padding: 0 2px; box-sizing: border-box; }
         .time-box { display: flex; justify-content: space-between; font-size: 11px; font-variant-numeric: tabular-nums; color: var(--text-muted); }
         
-        .slider { -webkit-appearance: none; width: 100%; height: 6px; border-radius: 10px; background: var(--slider-bg) !important; outline: none; cursor: pointer; }
+        .slider { -webkit-appearance: none; width: 100%; height: 6px; border-radius: 10px; background: var(--slider-bg); outline: none; cursor: pointer; transition: background 0.3s; }
         
-        /* Forced hardware token injection mappings on Apple configurations */
+        /* Premium custom slider circle thumb injector configuration */
         .slider::-webkit-slider-thumb {
             -webkit-appearance: none !important; appearance: none !important; 
             width: 16px !important; height: 16px !important; border-radius: 50% !important;
             background: var(--slider-thumb) !important; 
-            box-shadow: 0 1px 4px rgba(0,0,0,0.4) !important;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.3) !important;
+            transition: background 0.3s ease;
         }
         
         input[type="file"] { display: none; }
@@ -95,31 +92,14 @@
             background-color: var(--btn-bg); padding: 13px 20px; border-radius: 30px; border: none; 
             color: var(--btn-text); font-weight: 700; font-size: 14px; cursor: pointer; 
             display: inline-block; width: 100%; box-sizing: border-box; text-align: center; -webkit-tap-highlight-color: transparent;
+            transition: background-color 0.3s, color 0.3s;
         }
-        
-        .theme-panel {
-            position: absolute; top: 52px; right: 20px; background: var(--bg-player);
-            border: 1px solid var(--border-player); border-radius: 14px; padding: 8px;
-            display: none; flex-direction: column; gap: 4px; box-shadow: 0 8px 25px rgba(0,0,0,0.12); z-index: 40;
-        }
-        .theme-opt {
-            padding: 8px 16px; font-size: 12px; font-weight: 600; border-radius: 8px;
-            cursor: pointer; text-align: left; min-width: 100px; color: var(--text-main);
-        }
-        .theme-opt:active { background: rgba(0,0,0,0.05); }
     </style>
 </head>
 <body>
 
     <div class="app-container">
         <div class="player-main">
-            <div class="settings-trigger" id="gearBtn" onclick="toggleThemeDropdownPanel()">⚙️</div>
-            
-            <div class="theme-panel" id="themeDropdownMenu">
-                <div class="theme-opt" onclick="swapPlayerThemeProfile('LIGHT')">☀️ White Theme</div>
-                <div class="theme-opt" onclick="swapPlayerThemeProfile('DARK')">🌙 Dark Theme</div>
-            </div>
-
             <h2>Offline Player</h2>
             <p id="track-name">No track loaded</p>
             
@@ -143,27 +123,11 @@
         const seekSlider = document.getElementById('seekSlider');
         const currentTimeDisplay = document.getElementById('currentTime');
         const durationTimeDisplay = document.getElementById('durationTime');
-        const themeMenu = document.getElementById('themeDropdownMenu');
-
-        function toggleThemeDropdownPanel() {
-            themeMenu.style.display = themeMenu.style.display === 'flex' ? 'none' : 'flex';
-        }
-
-        function swapPlayerThemeProfile(mode) {
-            themeMenu.style.display = 'none';
-            if (mode === 'DARK') {
-                document.body.classList.add('theme-dark');
-                localStorage.setItem('player_selected_ui_mode', 'DARK');
-            } else {
-                document.body.classList.remove('theme-dark');
-                localStorage.setItem('player_selected_ui_mode', 'LIGHT');
-            }
-        }
 
         fileInput.addEventListener('change', (e) => {
             const files = e.target.files;
             if (files && files.length > 0) {
-                const file = files[0];
+                const file = files;
                 trackName.innerText = file.name ? file.name : "Local Track File";
                 audio.src = URL.createObjectURL(file);
                 audio.play();
@@ -191,11 +155,6 @@
             const minutes = Math.floor(secs / 60); const seconds = Math.floor(secs % 60);
             return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
         }
-
-        window.addEventListener('DOMContentLoaded', () => {
-            const savedMode = localStorage.getItem('player_selected_ui_mode') || 'LIGHT';
-            swapPlayerThemeProfile(savedMode);
-        });
 
         if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js'); }
     </script>
