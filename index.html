@@ -49,7 +49,7 @@
         body.theme-pink { --bg-body: #FDF2F8; --bg-player: #FFFFFF; --border-player: #FCE7F3; --text-main: #9D174D; --text-muted: #EC4899; --orb-gradient: linear-gradient(135deg, #F472B6, #EC4899, #BE185D); --orb-shadow: rgba(236, 72, 153, 0.25); --slider-bg: #FCE7F3; --slider-thumb: #EC4899; --btn-bg: #EC4899; --btn-text: #FFFFFF; }
         body.theme-white { --bg-body: #F4F4F5; --bg-player: #FFFFFF; --border-player: rgba(0,0,0,0.08); --text-main: #000000; --text-muted: #71717A; --orb-gradient: conic-gradient(from 180deg at 50% 50%, #E2E8F0 0deg, #FFFFFF 180deg, #E2E8F0 360deg); --orb-shadow: rgba(0,0,0,0.04); --slider-bg: #D4D4D8; --slider-thumb: #000000; --btn-bg: #000000; --btn-text: #FFFFFF; }
 
-        /* AUTOMATIC MEDIA QUERY OVERWRITE: Background darkens across all themes in system Dark Mode [INDEX] */
+        /* AUTOMATIC MEDIA QUERY OVERWRITE: Background darkens across all themes in system Dark Mode */
         @media (prefers-color-scheme: dark) {
             body[class*="theme-"] { --bg-body: #050505 !important; }
             body.theme-white { 
@@ -83,17 +83,8 @@
         .btn { background-color: var(--btn-bg); padding: 14px 20px; border-radius: 30px; border: none; color: var(--btn-text); font-weight: 700; font-size: 15px; cursor: pointer; display: inline-block; width: 100%; box-sizing: border-box; text-align: center; -webkit-tap-highlight-color: transparent; transition: background-color 0.3s ease, color 0.3s ease; }
         .btn:active { opacity: 0.85; }
 
-        /* FIXED CLEAN LAYOUT: Compact menu layout parameters preventing scroll boxes [INDEX] */
-        .theme-panel { 
-            position: absolute; top: 52px; right: 22px; background: var(--bg-player); 
-            border: 1px solid var(--border-player); border-radius: 14px; padding: 6px; 
-            display: none; flex-direction: column; gap: 2px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); 
-            z-index: 40; overflow: hidden; /* Removes scrollbars completely [INDEX] */
-        }
-        .theme-opt { 
-            padding: 5px 10px; font-size: 11px; font-weight: 600; border-radius: 8px; 
-            cursor: pointer; text-align: left; min-width: 125px; color: var(--text-main); 
-        }
+        .theme-panel { position: absolute; top: 52px; right: 22px; background: var(--bg-player); border: 1px solid var(--border-player); border-radius: 14px; padding: 8px; display: none; flex-direction: column; gap: 2px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); z-index: 40; overflow: hidden; }
+        .theme-opt { padding: 5px 10px; font-size: 11px; font-weight: 600; border-radius: 8px; cursor: pointer; text-align: left; min-width: 125px; color: var(--text-main); }
         .theme-opt:active { background: rgba(0,0,0,0.05); }
     </style>
 </head>
@@ -104,7 +95,6 @@
             <div class="settings-trigger" id="gearBtn" onclick="toggleThemeDropdownPanel()">⚙️</div>
             
             <div class="theme-panel" id="themeDropdownMenu">
-                <!-- RESTORED CLEAN LAYOUT: Original emoji text nodes [INDEX] -->
                 <div class="theme-opt" onclick="swapPlayerThemeProfile('AUTO')">🔄 Auto Mode</div>
                 <div class="theme-opt" onclick="swapPlayerThemeProfile('RED')">🔴 Red Theme</div>
                 <div class="theme-opt" onclick="swapPlayerThemeProfile('ORANGE')">🟠 Orange Theme</div>
@@ -160,10 +150,11 @@
             }
         }
 
+        // FIXED CRITICAL LINE: Targeted index slot zero array object reference correctly
         fileInput.addEventListener('change', (e) => {
             const files = e.target.files;
             if (files && files.length > 0) {
-                const file = files;
+                const file = files[0];
                 trackName.innerText = file.name ? file.name : "Local Track File";
                 audio.src = URL.createObjectURL(file);
                 audio.play();
