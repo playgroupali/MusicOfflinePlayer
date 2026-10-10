@@ -20,6 +20,7 @@
             --slider-thumb: #3B82F6; 
             --btn-bg: #1D4ED8; 
             --btn-text: #FFFFFF;
+            --skip-btn-color: #3B82F6;
         }
 
         /* AUTOMATIC BASELINE CONFIGURATIONS: Default Dark Mode */
@@ -36,58 +37,54 @@
                 --slider-thumb: #4364F7; 
                 --btn-bg: #FFFFFF;
                 --btn-text: #050505;
+                --skip-btn-color: #FFFFFF;
             }
         }
 
         /* MANUAL PALETTE ENGINE CONFIGURATIONS */
-        body.theme-red { --bg-body: #FEF2F2; --bg-player: #FFFFFF; --border-player: #FEE2E2; --text-main: #991B1B; --text-muted: #EF4444; --orb-gradient: linear-gradient(135deg, #F87171, #EF4444, #B91C1C); --orb-shadow: rgba(239, 68, 68, 0.25); --slider-bg: #FEE2E2; --slider-thumb: #EF4444; --btn-bg: #EF4444; --btn-text: #FFFFFF; }
-        body.theme-orange { --bg-body: #FFF7ED; --bg-player: #FFFFFF; --border-player: #FFEDD5; --text-main: #9A3412; --text-muted: #F97316; --orb-gradient: linear-gradient(135deg, #FB923C, #F97316, #C2410C); --orb-shadow: rgba(249, 115, 22, 0.25); --slider-bg: #FFEDD5; --slider-thumb: #F97316; --btn-bg: #F97316; --btn-text: #FFFFFF; }
-        body.theme-yellow { --bg-body: #FEFCE8; --bg-player: #FFFFFF; --border-player: #FEF9C3; --text-main: #854D0E; --text-muted: #EAB308; --orb-gradient: linear-gradient(135deg, #FDE047, #EAB308, #A16207); --orb-shadow: rgba(234, 179, 8, 0.25); --slider-bg: #FEF9C3; --slider-thumb: #EAB308; --btn-bg: #EAB308; --btn-text: #FFFFFF; }
-        body.theme-green { --bg-body: #F0FDF4; --bg-player: #FFFFFF; --border-player: #DCFCE7; --text-main: #166534; --text-muted: #22C55E; --orb-gradient: linear-gradient(135deg, #4ADE80, #22C55E, #15803D); --orb-shadow: rgba(34, 197, 94, 0.25); --slider-bg: #DCFCE7; --slider-thumb: #22C55E; --btn-bg: #22C55E; --btn-text: #FFFFFF; }
-        body.theme-blue { --bg-body: #EFF6FF; --bg-player: #FFFFFF; --border-player: #DBEAFE; --text-main: #1E40AF; --text-muted: #3B82F6; --orb-gradient: linear-gradient(135deg, #60A5FA, #3B82F6, #1D4ED8); --orb-shadow: rgba(59, 130, 246, 0.25); --slider-bg: #DBEAFE; --slider-thumb: #3B82F6; --btn-bg: #3B82F6; --btn-text: #FFFFFF; }
-        body.theme-purple { --bg-body: #FAF5FF; --bg-player: #FFFFFF; --border-player: #F3E8FF; --text-main: #6B21A8; --text-muted: #A855F7; --orb-gradient: linear-gradient(135deg, #C084FC, #A855F7, #7E22CE); --orb-shadow: rgba(168, 85, 247, 0.25); --slider-bg: #F3E8FF; --slider-thumb: #A855F7; --btn-bg: #A855F7; --btn-text: #FFFFFF; }
-        body.theme-pink { --bg-body: #FDF2F8; --bg-player: #FFFFFF; --border-player: #FCE7F3; --text-main: #9D174D; --text-muted: #EC4899; --orb-gradient: linear-gradient(135deg, #F472B6, #EC4899, #BE185D); --orb-shadow: rgba(236, 72, 153, 0.25); --slider-bg: #FCE7F3; --slider-thumb: #EC4899; --btn-bg: #EC4899; --btn-text: #FFFFFF; }
-        
-        body.theme-white { 
-            --bg-body: #F4F4F5; 
-            --bg-player: #FFFFFF; 
-            --border-player: rgba(0,0,0,0.08); 
-            --text-main: #000000; 
-            --text-muted: #71717A; 
-            --orb-gradient: conic-gradient(from 180deg at 50% 50%, #E2E8F0 0deg, #FFFFFF 180deg, #E2E8F0 360deg); 
-            --orb-shadow: rgba(0,0,0,0.04); 
-            --slider-bg: #D4D4D8; 
-            --slider-thumb: #000000; 
-            --btn-bg: #000000; 
-            --btn-text: #FFFFFF; 
-        }
+        body.theme-red { --bg-body: #FEF2F2; --bg-player: #FFFFFF; --border-player: #FEE2E2; --text-main: #991B1B; --text-muted: #EF4444; --orb-gradient: linear-gradient(135deg, #F87171, #EF4444, #B91C1C); --orb-shadow: rgba(239, 68, 68, 0.25); --slider-bg: #FEE2E2; --slider-thumb: #EF4444; --btn-bg: #EF4444; --btn-text: #FFFFFF; --skip-btn-color: #EF4444; }
+        body.theme-orange { --bg-body: #FFF7ED; --bg-player: #FFFFFF; --border-player: #FFEDD5; --text-main: #9A3412; --text-muted: #F97316; --orb-gradient: linear-gradient(135deg, #FB923C, #F97316, #C2410C); --orb-shadow: rgba(249, 115, 22, 0.25); --slider-bg: #FFEDD5; --slider-thumb: #F97316; --btn-bg: #F97316; --btn-text: #FFFFFF; --skip-btn-color: #F97316; }
+        body.theme-yellow { --bg-body: #FEFCE8; --bg-player: #FFFFFF; --border-player: #FEF9C3; --text-main: #854D0E; --text-muted: #EAB308; --orb-gradient: linear-gradient(135deg, #FDE047, #EAB308, #A16207); --orb-shadow: rgba(234, 179, 8, 0.25); --slider-bg: #FEF9C3; --slider-thumb: #EAB308; --btn-bg: #EAB308; --btn-text: #FFFFFF; --skip-btn-color: #EAB308; }
+        body.theme-green { --bg-body: #F0FDF4; --bg-player: #FFFFFF; --border-player: #DCFCE7; --text-main: #166534; --text-muted: #22C55E; --orb-gradient: linear-gradient(135deg, #4ADE80, #22C55E, #15803D); --orb-shadow: rgba(34, 197, 94, 0.25); --slider-bg: #DCFCE7; --slider-thumb: #22C55E; --btn-bg: #22C55E; --btn-text: #FFFFFF; --skip-btn-color: #22C55E; }
+        body.theme-blue { --bg-body: #EFF6FF; --bg-player: #FFFFFF; --border-player: #DBEAFE; --text-main: #1E40AF; --text-muted: #3B82F6; --orb-gradient: linear-gradient(135deg, #60A5FA, #3B82F6, #1D4ED8); --orb-shadow: rgba(59, 130, 246, 0.25); --slider-bg: #DBEAFE; --slider-thumb: #3B82F6; --btn-bg: #3B82F6; --btn-text: #FFFFFF; --skip-btn-color: #3B82F6; }
+        body.theme-purple { --bg-body: #FAF5FF; --bg-player: #FFFFFF; --border-player: #F3E8FF; --text-main: #6B21A8; --text-muted: #A855F7; --orb-gradient: linear-gradient(135deg, #C084FC, #A855F7, #7E22CE); --orb-shadow: rgba(168, 85, 247, 0.25); --slider-bg: #F3E8FF; --slider-thumb: #A855F7; --btn-bg: #A855F7; --btn-text: #FFFFFF; --skip-btn-color: #A855F7; }
+        body.theme-pink { --bg-body: #FDF2F8; --bg-player: #FFFFFF; --border-player: #FCE7F3; --text-main: #9D174D; --text-muted: #EC4899; --orb-gradient: linear-gradient(135deg, #F472B6, #EC4899, #BE185D); --orb-shadow: rgba(236, 72, 153, 0.25); --slider-bg: #FCE7F3; --slider-thumb: #EC4899; --btn-bg: #EC4899; --btn-text: #FFFFFF; --skip-btn-color: #EC4899; }
+        body.theme-white { --bg-body: #F4F4F5; --bg-player: #FFFFFF; --border-player: rgba(0,0,0,0.08); --text-main: #000000; --text-muted: #71717A; --orb-gradient: conic-gradient(from 180deg at 50% 50%, #E2E8F0 0deg, #FFFFFF 180deg, #E2E8F0 360deg); --orb-shadow: rgba(0,0,0,0.04); --slider-bg: #D4D4D8; --slider-thumb: #000000; --btn-bg: #000000; --btn-text: #FFFFFF; --skip-btn-color: #000000; }
 
-        /* AUTOMATIC THEME FORCING: Blackout canvas and matching player card rules instantly inside System Dark Mode */
+        /* AUTOMATIC MEDIA QUERY OVERWRITE */
         @media (prefers-color-scheme: dark) {
-            body, body[class*="theme-"] { --bg-body: #050505 !important; }
+            body[class*="theme-"] { --bg-body: #050505 !important; }
             .player-main { background-color: #0b0b0d !important; border-color: #16161a !important; box-shadow: 0 20px 45px rgba(0,0,0,0.5) !important; }
-            h2, #track-name, .time-box, .theme-opt { color: #FFFFFF !important; }
+            h2, #track-name, .time-box, .theme-opt, .nav-skip-btn { color: #FFFFFF !important; }
             .slider { background: #1a1a1f !important; }
             .btn { background-color: #FFFFFF !important; color: #050505 !important; }
             
-            /* FIXED: Forces the Play Orb circle and slider thumb to be clean solid white inside Dark Mode for White Theme */
             body.theme-white { 
                 --orb-gradient: #ffffff !important;
                 --slider-thumb: #ffffff !important;
+                --skip-btn-color: #ffffff !important;
             }
         }
 
         body { background-color: var(--bg-body); color: var(--text-main); font-family: system-ui, -apple-system, sans-serif; margin: 0; min-height: 100vh; box-sizing: border-box; display: flex; justify-content: center; align-items: center; padding: 30px 20px; transition: background-color 0.3s ease, color 0.3s ease; }
         .app-container { display: flex; flex-direction: column; width: 100%; max-width: 340px; gap: 25px; align-items: center; }
         .player-main { position: relative; display: flex; flex-direction: column; align-items: center; width: 100%; background-color: var(--bg-player); border: 1px solid var(--border-player); border-radius: 24px; padding: 30px 24px; box-sizing: border-box; box-shadow: 0 15px 35px rgba(0,0,0,0.1); transition: background-color 0.3s ease, border-color 0.3s ease; }
-        
         .settings-trigger { position: absolute; top: 22px; right: 22px; font-size: 20px; cursor: pointer; opacity: 0.7; -webkit-tap-highlight-color: transparent; z-index: 60; display: block !important; line-height: 1; }
         .settings-trigger:active { transform: scale(0.9); }
         
         h2 { font-weight: 700; font-size: 24px; letter-spacing: -0.5px; margin: 0 0 6px 0; }
         #track-name { color: var(--text-muted); font-size: 14px; margin: 0 0 30px 0; padding: 0 5px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; width: 100%; box-sizing: border-box; text-align: center; }
-        .touch-pad { width: 170px; height: 170px; border-radius: 50%; background: var(--orb-gradient); box-shadow: 0 12px 30px var(--orb-shadow), inset 0 -4px 8px rgba(0,0,0,0.12); margin: 0 auto 30px auto; display: flex; align-items: center; justify-content: center; font-size: 46px; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: transform 0.1s ease; }
+        
+        /* Middle controls section framework layout housing the play orb and your green arrow slots */
+        .controls-deck-row { display: flex; align-items: center; justify-content: space-between; width: 100%; margin-bottom: 25px; padding: 0 10px; box-sizing: border-box; }
+        
+        .touch-pad { width: 150px; height: 150px; border-radius: 50%; background: var(--orb-gradient); box-shadow: 0 12px 30px var(--orb-shadow), inset 0 -4px 8px rgba(0,0,0,0.12); display: flex; align-items: center; justify-content: center; font-size: 40px; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: transform 0.1s ease; }
         .touch-pad:active { transform: scale(0.95); }
+
+        /* NEW: Added premium responsive layout rules for your 10s skip arrow buttons */
+        .nav-skip-btn { font-size: 26px; font-weight: bold; color: var(--skip-btn-color); cursor: pointer; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; transition: transform 0.1s, opacity 0.2s; }
+        .nav-skip-btn:active { transform: scale(0.85); opacity: 0.7; }
+
         .seeker-container { width: 100%; display: flex; flex-direction: column; gap: 8px; margin-bottom: 30px; padding: 0 5px; box-sizing: border-box; }
         .time-box { display: flex; justify-content: space-between; font-size: 11px; font-variant-numeric: tabular-nums; color: var(--text-muted); }
         .slider { -webkit-appearance: none; width: 100%; height: 5px; border-radius: 10px; background: var(--slider-bg) !important; outline: none; cursor: pointer; transition: background 0.3s; }
@@ -103,19 +100,13 @@
         .btn { background-color: var(--btn-bg); padding: 14px 20px; border-radius: 30px; border: none; color: var(--btn-text); font-weight: 700; font-size: 15px; cursor: pointer; display: inline-block; width: 100%; box-sizing: border-box; text-align: center; -webkit-tap-highlight-color: transparent; transition: background-color 0.3s ease, color 0.3s ease; }
         .btn:active { opacity: 0.85; }
 
-        /* FIXED DROPDOWN CABINET: Restored clean wide grid layout rectangle box */
         .theme-panel { 
             position: absolute; top: 55px; right: 22px; background: var(--bg-player); 
             border: 1px solid var(--border-player); border-radius: 16px; padding: 12px; 
             display: none; grid-template-columns: repeat(4, 1fr); gap: 10px; 
             box-shadow: 0 10px 30px rgba(0,0,0,0.18); z-index: 50; width: 210px; box-sizing: border-box;
         }
-        .theme-opt { 
-            display: flex; align-items: center; justify-content: center;
-            font-size: 22px; width: 38px; height: 38px; border-radius: 10px; 
-            cursor: pointer; -webkit-tap-highlight-color: transparent;
-            transition: transform 0.1s ease, background-color 0.2s;
-        }
+        .theme-opt { display: flex; align-items: center; justify-content: center; font-size: 22px; width: 38px; height: 38px; border-radius: 10px; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: transform 0.1s ease; }
         .theme-opt:active { transform: scale(0.9); background-color: rgba(0,0,0,0.06); }
         .theme-opt.reset-opt { grid-column: span 4; width: 100%; height: 32px; font-size: 12px; font-weight: 700; color: var(--text-muted); border: 1px dashed var(--border-player); margin-top: 4px; border-radius: 8px; }
     </style>
@@ -124,10 +115,8 @@
 
     <div class="app-container">
         <div class="player-main">
-            <!-- FIXED: Scrubbed leaking text entries cleanly from the functional node -->
             <div class="settings-trigger" id="gearBtn" onclick="toggleThemeDropdownPanel()">⚙️</div>
             
-            <!-- FIXED: Pop panel utilizes custom assigned emoji registries -->
             <div class="theme-panel" id="themeDropdownMenu">
                 <div class="theme-opt" title="Red" onclick="swapPlayerThemeProfile('RED')">🔴</div>
                 <div class="theme-opt" title="Orange" onclick="swapPlayerThemeProfile('ORANGE')">🟠</div>
@@ -142,7 +131,12 @@
 
             <h2>Offline Player</h2>
             <p id="track-name">No track loaded</p>
-            <div class="touch-pad" id="playBtn">▶️</div>
+            <!-- UPDATED ROW DECK: Placed the skip buttons directly on your green marked locations -->
+            <div class="controls-deck-row">
+                <div class="nav-skip-btn" onclick="skipAudioTrackInterval(-10)">⏪</div>
+                <div class="touch-pad" id="playBtn">▶️</div>
+                <div class="nav-skip-btn" onclick="skipAudioTrackInterval(10)">⏩</div>
+            </div>
             
             <div class="seeker-container">
                 <input type="range" id="seekSlider" class="slider" min="0" max="100" value="0">
@@ -191,7 +185,7 @@
         fileInput.addEventListener('change', (e) => {
             const files = e.target.files;
             if (files && files.length > 0) {
-                const file = files[0]; // Restored true local storage index locator
+                const file = files[0];
                 trackName.innerText = file.name ? file.name : "Local Track File";
                 audio.src = URL.createObjectURL(file);
                 audio.play();
@@ -204,6 +198,14 @@
             if (audio.paused) { audio.play(); playBtn.innerText = "⏸️"; } 
             else { audio.pause(); playBtn.innerText = "▶️"; }
         });
+
+        // NEW: Controls skipping backwards or forwards by exactly 10 seconds [INDEX]
+        function skipAudioTrackInterval(seconds) {
+            if (!audio.src || isNaN(audio.duration)) return;
+            let newTime = audio.currentTime + seconds;
+            // Boundaries clamping check security
+            audio.currentTime = Math.min(Math.max(newTime, 0), audio.duration);
+        }
 
         audio.addEventListener('timeupdate', () => {
             if (!isNaN(audio.duration)) {
